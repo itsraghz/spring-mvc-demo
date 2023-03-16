@@ -1,5 +1,6 @@
 package com.raghsonline.springmvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController 
 {
+	/* 
+	 * Create an instance of the LoginService at the Controller class level,
+	 * so that it can be reused across all the other methods in the Controller
+	 */
+	//LoginService service = new LoginService();
+	
+	@Autowired //this will pick up an instance of LoginService and assign it
+	LoginService service;
+	
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	@ResponseBody
 	public String sayHello()
@@ -82,7 +92,20 @@ public class LoginController
 		 * Controller to the View(s). But we must receive a Map parameter
 		 * as a Request in the Method, only then Spring MVC will supply one.
 		 */
-		if(userName.equals("Java") && password.equals("Spring"))
+		
+		/*if(userName.equals("Java") && password.equals("Spring"))
+		{
+			model.addAttribute("name", userName);
+			return "welcome";
+		} else {
+			model.addAttribute("errorMessage", "Invalid Credentials");
+			return "login";
+		}*/
+		
+		/* Now it is a reusable logic , than being hard coded inside a method */
+		boolean isValidUser = service.isValidUser(userName, password);
+		
+		if(isValidUser)
 		{
 			model.addAttribute("name", userName);
 			return "welcome";
@@ -90,5 +113,6 @@ public class LoginController
 			model.addAttribute("errorMessage", "Invalid Credentials");
 			return "login";
 		}
+		
 	}
 }
