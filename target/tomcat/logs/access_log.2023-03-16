@@ -90,3 +90,4 @@
 127.0.0.1 - - [16/Mar/2023:20:29:14 +0530] "GET /spring-mvc-demo/contacts HTTP/1.1" 200 1850 http-bio-8080-exec-1 74
 127.0.0.1 - - [16/Mar/2023:20:29:14 +0530] "GET /spring-mvc-demo/webjars/bootstrap/4.6.2/css/bootstrap.min.css HTTP/1.1" 200 162264 http-bio-8080-exec-2 19
 127.0.0.1 - - [16/Mar/2023:20:29:14 +0530] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+127.0.0.1 - - [16/Mar/2023:20:58:49 +0530] "GET /spring-mvc-demo/contacts HTTP/1.1" 200 1850 http-bio-8080-exec-5 20

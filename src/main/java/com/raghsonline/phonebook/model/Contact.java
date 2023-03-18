@@ -1,6 +1,6 @@
 package com.raghsonline.phonebook.model;
 
-import java.util.Date;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +26,10 @@ public class Contact
 	 */
 	private int id;
 	
+	@Size(min = 4, message = "First Name should have a min of 4 characters")
 	private String firstName;
 	
+	@Size(min = 4, message = "Last Name should have a min of 4 characters")
 	private String lastName;
 	
 	/**

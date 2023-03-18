@@ -19,6 +19,13 @@ public class ContactServiceImpl implements ContactService
 	 */
 	static Logger logger = Logger.getLogger(ContactServiceImpl.class);
 	
+	/**
+	 * <p>
+	 * A class level (static) counter to track the running 
+	 * sequence number of the entries being added into the 
+	 * List.
+	 * </p>
+	 */
 	static int counter = 0;
 	
 	public ContactServiceImpl()
@@ -72,9 +79,28 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public int addContact(Contact contact) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addContact(Contact contact) 
+	{
+		logger.debug("addContact() invoked");
+		
+		logger.info("Contact Object received : " + contact);
+		
+		/* We receive the contact but it MAY NOT have
+		 * the actual running sequence, which is ONLY
+		 * known to the Service class/layer (this class).
+		 * 
+		 * We should ideally replace / supply the actual
+		 * sequence to the "id" attribute of the received
+		 * Contact object which is an input argument to this
+		 * method, before we actually add it (to the list - Phase 1).
+		 */
+		contact.setId(++counter);
+		
+		logger.info("Contact object supplied with the actual counter : " + contact);
+
+		contactList.add(contact);
+		
+		return contact.getId();
 	}
 	
 	/* ================================================ */

@@ -3,49 +3,50 @@
 <%@page import ="java.util.List, com.raghsonline.phonebook.model.Contact, 
 		org.springframework.ui.ModelMap" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-<link href="webjars/bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>Phonebook | Contacts</title>
+		<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
-		<h1>PhoneBook - Contacts</h1>
-		Please find all the contacts in your Phonebook.<br/>
-		<!--  Equivalent to out.println("Hello, JSTL") -->
-		<c:out value="Hello, JSTL"></c:out>
-		
 		<div id="contacts" class="container">
-			<%
-				/*List<Contact> contactList = (List<Contact>) request.getAttribute("contacts");
-				
-				out.println("contactList size : " + contactList.size());
-				out.println("<br/>");
-				out.println("===========================");
-				out.println("<br/>");
-				for(Contact contact : contactList)
-				{
-					out.println(contact);
+			<h1>PhoneBook - Contacts</h1>
+				<p>
+					Please find all the contacts in your Phonebook.
+				</p> 
+				<!--  Equivalent to out.println("Hello, JSTL") -->
+				<!--<c:out value="Hello, JSTL"></c:out> -->
+				<%
+					/*List<Contact> contactList = (List<Contact>) request.getAttribute("contacts");
+					
+					out.println("contactList size : " + contactList.size());
 					out.println("<br/>");
-				}
-				out.println("<br/>");
-				out.println("===========================");
-				*/
-			%>
+					out.println("===========================");
+					out.println("<br/>");
+					for(Contact contact : contactList)
+					{
+						out.println(contact);
+						out.println("<br/>");
+					}
+					out.println("<br/>");
+					out.println("===========================");
+					*/
+				%>
 			<table class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
 				<caption>View All Contacts</caption>
 				<thead>
 					<tr>	
-						<th>Id</th>
-						<th>FirstName</th>
-						<th>LastName</th>
-						<th>DOB</th>
-						<th>Contact No</th>
-						<th>Email</th>
-						<th>Notes</th>
-						<th>Tag</th>
+						<th class="text-center">Id</th>
+						<th class="text-center">FirstName</th>
+						<th class="text-center">LastName</th>
+						<th class="text-center">DOB</th>
+						<th class="text-center">Contact No</th>
+						<th class="text-center">Email</th>
+						<th class="text-center">Notes</th>
+						<th class="text-center">Tag</th>
 					</tr>
 				</thead>
 				<tbody class="table-group-divider">
@@ -63,6 +64,18 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<div>
+				<!-- Not a recommended approach. JSP to JSP it forwards -->
+				<!--  Click <a href="addContact.jsp">here</a> to add a new Contact.-->
+				
+				<!--  
+						Recommended Approach, we need the request to go the Server and
+						it will redirect to the right JSP Page (MVC Approach). 
+						
+						See the value in href - it has the urlPattern than the actual .jsp file
+				 -->
+				Click <a href="add-contact">here</a> to add a new Contact.
+			</div>
 		</div>
 	</body>
 </html>
