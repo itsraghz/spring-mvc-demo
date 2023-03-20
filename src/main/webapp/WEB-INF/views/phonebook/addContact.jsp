@@ -12,44 +12,53 @@
 		<div id="contacts" class="container">
 			<h1>Phonebook - Add Contact</h1>
 			<form:form method="POST" commandName="contact">
-				<fieldset id="firstNameField" name="firstNameField">
-					<form:label path="firstName" for="fName">First Name : </form:label>
-					<form:input path="firstName" type="text" id="fName" name="firstName" 
+			  <div class="form-group row">
+			    <form:label path="firstName" for="fName" class="col-sm-2 col-form-label">
+			    	First Name
+			    </form:label>			    
+			    <div class="col-sm-10">			      
+			      	<form:input path="firstName" type="text" id="fName" name="firstName" 
 						size="20" required="required"/>
 					<form:errors path="firstName" cssClass="text-warning"></form:errors>
-				</fieldset>
-				<fieldset id="lastNameField" name="lastNameField">
-					<form:label path="lastName" for="lName">Last Name : </form:label>
-					<form:input path="lastName" type="text" id="lName" name="lastName" 
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <form:label path="lastName" for="lName" class="col-sm-2 col-form-label">
+			    	Last Name 
+			    </form:label>			    
+			    <div class="col-sm-10">			      
+			      	<form:input path="lastName" type="text" id="lName" name="lastName" 
 						size="20" required="required"/>
 					<form:errors path="lastName" cssClass="text-warning"></form:errors>
-				</fieldset>		
+			    </div>
+			  </div>			  		
 				<fieldset id="dobField" name="dobField">
 					<form:label path="dob" for="dob">Date of Birth : </form:label>
 					<form:input path="dob" type="text" id="dob" name="dob" 
-						size="10" required="required"/>				
+						size="10" required="required"/>	
+					<form:errors path="dob" cssClass="text-warning"></form:errors>									
 				</fieldset>	
 				<fieldset id="contactNoField" name="contactNoField">
 					<form:label path="contactNo" for="contactNo">Contact No : </form:label>
 					<form:input path="contactNo" type="text" id="contactNo" name="contactNo" 
-						size="10" required="required"/>				
+						size="10" required="required"/>
+					<form:errors path="contactNo" cssClass="text-warning"></form:errors>				
 				</fieldset>	
 				<fieldset id="emailField" name="emailField">
 					<form:label path="email" for="email">Email Address : </form:label>
 					<form:input path="email" type="text" id="email" name="email" 
-						size="20" required="required"/>				
+						size="20"/>	
+					<form:errors path="email" cssClass="text-warning"></form:errors>			
 				</fieldset>	
 				<fieldset id="notesField" name="notesField">
 					<form:label path="notes" for="notes">Notes : </form:label>
 					<form:input path="notes" type="text" id="notes" name="notes" size="40" 
-						placeholder="Any short notes to be added for the Contact"
-						required="required"/>				
+						placeholder="Any short notes to be added for the Contact"/>				
 				</fieldset>	
 				<fieldset id="tagField" name="tagField">
 					<form:label path="tag" for="tag">Tag : </form:label>
 					<form:input path="tag" type="text" id="tag" name="tag" size="20" 
-						placeholder="Any meaningful short name to group/classify this Contact"
-						required="required"/>				
+						placeholder="Any meaningful short name to group/classify this Contact"/>				
 				</fieldset>
 				<!-- <button type="button" class="btn btn-primary">Add</button>	-->	
 				<input class="btn btn-primary" type="submit" value="Add"/>																	

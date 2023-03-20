@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
 import com.raghsonline.phonebook.service.ContactService;
 
@@ -85,7 +87,7 @@ public class TestContactServiceImpl
 	@Test
 	@DisplayName("A contact should get added successfully")
 	@Order(2)
-	public void addContact()
+	public void addContact() throws BusinessException
 	{
 		/* 
 		 * Though a zero OR no-arg constructor can be used (legally), 
@@ -118,5 +120,72 @@ public class TestContactServiceImpl
 		assertTrue(contactService.getAllContacts().size() > 4);
 		assertTrue(contactService.getAllContacts().size() >= 5);
 	}
-
+	
+	@Test
+	@DisplayName("Get/Retrieve a Contact by Id")
+	@Order(3)
+	public Optional<Contact> getContact()
+	{
+		System.out.println("getContact() invoked");
+		
+		int id = 1;
+		
+		Optional<Contact> contact = contactService.getContactById(id);
+		
+		// Old style 
+		/* contact contact = contactService.getContactById(id);
+		assertNotNull(contact);
+		System.out.println("Contact Object : " + contact); */
+		
+		// New style - using Optionals
+		/* It will always be NOT null */
+		assertNotNull(contact);
+		
+		System.out.println("Contact present ? " + contact.isPresent());
+		System.out.println("Contact empty ? " + contact.isEmpty());
+		
+		if(contact.isPresent()) 
+		{
+			System.out.println("Contact object : " + contact.get());
+			System.out.println("### Contact object Hashcode : " + contact.get().hashCode());
+			assertNotNull(contact.get());
+		}
+		
+		return contact;
+	}
+	
+	@Test
+	@DisplayName("Updating the attributes of a Contact object")
+	@Order(4)
+	public void updateContact()
+	{
+		System.out.println("updateContact() invoked");
+		
+		/*Optional<Contact> optionalContact = getContact();
+		
+		Contact contact = null;
+		
+		if(optionalContact.isPresent())
+		{
+			contact = optionalContact.get();
+		}*/
+		
+		Contact contact = getContact().get();
+		System.out.println("contact obtained from getContact() : "+ contact);
+		System.out.println("### Hashcode of the contact : "+ contact.hashCode());
+		
+		assertNotNull(contact);
+		
+		contact.setNotes(contact.getNotes()+ ", #Updated");
+		System.out.println("contact updated :: "+ contact);
+		
+		contactService.updateContact(contact);
+		
+		Contact updatedContact = getContact().get();
+		System.out.println("updatedContact obtained from getContact() : "+ updatedContact);
+		System.out.println("### Hashcode of the updatedContact : "+ updatedContact.hashCode());
+		
+		assertNotNull(updatedContact);
+		assertTrue(updatedContact.getNotes().endsWith("#Updated"));
+	}
 }

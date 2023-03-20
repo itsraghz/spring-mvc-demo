@@ -1,16 +1,21 @@
 package com.raghsonline.phonebook.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
+import javax.ws.rs.PathParam;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
 import com.raghsonline.phonebook.service.ContactService;
 
@@ -50,9 +55,13 @@ public class ContactController
 		 * and see how this object gets displayed in the UI page
 		 */
 		Contact contact = new Contact(-1, "Spring", "2 way Data Binding", 
-							"2003-01-01", "76749123131", 
-							"databinding@springmvc.com", "Sprnig MVC DataBiding", 
+							"2003-01-01", "1234567890", 
+							"databinding@springmvc.com", "Spring MVC DataBinding", 
 							"Java, Spring");
+		
+		/* Purposefully added this to demonstrate the validation failure */
+		//contact = new Contact();
+		
 		model.addAttribute("contact", contact);
 		
 		return "phonebook/addContact";
@@ -99,9 +108,18 @@ public class ContactController
 	{
 		logger.info("addContact() invoked");
 		
+		/* Validation on the Duplicate contact */
+
+		
 		if(result.hasErrors())
 		{
 			logger.error("Errors while binding the data values");
+			
+			System.out.println("Printing all the ObjectErrros in hasErrors()");
+			System.out.println("---------------------------------------------");
+			result.getAllErrors().stream().forEach(System.out::println);
+			System.out.println("---------------------------------------------");
+			
 			result.getAllErrors().stream().forEach(logger::error);
 			
 			/* We should return it to the same addContact page */
@@ -121,7 +139,47 @@ public class ContactController
 		
 		logger.info("Contact obj prepared from the REQ parameters via Spring MVC : " + contact);
 		
-		int id = contactService.addContact(contact);
+		int id = -1;
+		
+		try {
+			id = contactService.addContact(contact);
+		} catch (BusinessException businessException) {
+			logger.error("BusinessException occurred while adding a Contact");
+			logger.error("Error Messsage : " + businessException.getMessage());
+			//TODO:	Should make this conditional depends on the AppMode flag when we have it.
+			businessException.printStackTrace();
+			
+			System.out.println("Printing all the ObjectErrros before adding a BusinessException");
+			System.out.println("--------------------------------------------------------------");
+			result.getAllErrors().stream().forEach(System.out::println);
+			System.out.println("--------------------------------------------------------------");
+			
+			/* ============================================= */
+			/* Trial and Errors to display the error message */
+			/* ==========================-================== */
+			//result.addError(new ObjectError("contactNo", businessException.getMessage()));
+			
+			/*result.addError(new ObjectError("contact", 
+							new String[] {"contactNoObject"}, 
+							new Object[] {businessException.getMessage()},
+							null));*/
+
+			//result.addError(new FieldError("contact", "contactNo", businessException.getMessage()));
+			/* ================================== */
+			
+			/** Successful */
+			result.addError(new FieldError("contact", "contactNo", 
+					contact.getContactNo(), true, null, 
+					null, businessException.getMessage()));
+			
+			
+			System.out.println("Printing all the ObjectErrros after adding a BusinessException");
+			System.out.println("--------------------------------------------------------------");
+			result.getAllErrors().stream().forEach(System.out::println);
+			System.out.println("--------------------------------------------------------------");
+			
+			return "phonebook/addContact";
+		}
 		
 		logger.info("ID of the newly added Contact Object : " + id);
 		
@@ -140,7 +198,19 @@ public class ContactController
 		
 		logger.info("Contact Object prepared from the request parameters : " + contact);
 		
-		int id = contactService.addContact(contact);
+		int id = -1;
+		
+		try {
+			id = contactService.addContact(contact);
+		} catch (BusinessException businessException) {
+			logger.error("BusinessException occurred while adding a Contact");
+			logger.error("Error Messsage : " + businessException.getMessage());
+			//TODO:	Should make this conditional depends on the AppMode flag when we have it.
+			businessException.printStackTrace();
+			
+			//result.addError(new ObjectError("contactNo", businessException.getMessage()));
+			return "phonebook/addContact";
+		}
 		
 		logger.info("ID of the newly added Contact Object : " + id);
 		
@@ -150,4 +220,69 @@ public class ContactController
 		
 		return "redirect:/contacts";
 	}
+	
+	@RequestMapping(value = "contact", method = RequestMethod.GET)
+	public String getContact(@RequestParam int id, ModelMap model)
+	{
+		System.out.println("getContact() invoked, with the requestParam ID : " + id);
+		
+		Optional<Contact> contact = contactService.getContactById(id);
+		
+		if(contact.isPresent())
+		{
+			model.addAttribute("contact", contact.get());
+		}
+		
+		return "phonebook/viewContact";
+	}
+	
+	/*@RequestMapping(value = "contact/{id}", method = RequestMethod.GET)
+	public String getContactPathParam(@PathParam(value = "id") int id, ModelMap model)
+	{
+		System.out.println("getContactPathParam() invoked, with the pathParam ID : " + id);
+		
+		Optional<Contact> contact = contactService.getContactById(id);
+		
+		if(contact.isPresent())
+		{
+			model.addAttribute("contact", contact.get());
+		}
+		
+		return "phonebook/contactView";
+	}*/
+	
+	@RequestMapping(value = "update-contact", method=RequestMethod.GET)
+	public String updateContact(@RequestParam int id , ModelMap model)
+	{
+		System.out.println("updateContact() invoked, with the requestParam ID : " + id);
+		
+		Optional<Contact> contact = contactService.getContactById(id);
+		
+		if(contact.isPresent())
+		{
+			model.addAttribute("contact", contact.get());
+		}
+		
+		/* We reuse the same addContact.jsp page here */
+		return "phonebook/addContact";
+	}
+
+	@RequestMapping(value = "update-contact", method=RequestMethod.POST)
+	public String updateContact(@Valid Contact contact, BindingResult result, ModelMap model)
+	{
+		System.out.println("updateContact() POST invoked, with the requestParam contact : " + contact);
+		
+		if(result.hasErrors())
+		{
+			return "phonebook/addContact"; 
+		}
+		
+		contactService.updateContact(contact);
+		
+		model.clear(); /* existing items will be removed to avoid ambiguities */
+		model.addAttribute("contact", contact);
+	
+		return "phonebook/viewContact";
+	}
+	
 }

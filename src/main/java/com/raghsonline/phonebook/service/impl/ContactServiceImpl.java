@@ -2,10 +2,12 @@ package com.raghsonline.phonebook.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
 import com.raghsonline.phonebook.service.ContactService;
 
@@ -79,11 +81,20 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public int addContact(Contact contact) 
+	public int addContact(Contact contact) throws BusinessException 
 	{
 		logger.debug("addContact() invoked");
 		
 		logger.info("Contact Object received : " + contact);
+		
+		/* It is time to do the validation on the duplicate check */
+		// All the boundary level validations are already performed at the Controller level */
+		if(isContactDuplicate(contact)) 
+		{
+			String errorMsg = "ContactNo already exists!";
+			logger.error(errorMsg);
+			throw new BusinessException(errorMsg);
+		}
 		
 		/* We receive the contact but it MAY NOT have
 		 * the actual running sequence, which is ONLY
@@ -103,6 +114,37 @@ public class ContactServiceImpl implements ContactService
 		return contact.getId();
 	}
 	
+	/**
+	 * <p>
+	 * A reusable utility method to find out whether a contact
+	 * is already present in the list.
+	 * </p>
+	 * @param contactParam An instance of the Contact the contact to be added
+	 * @return	a boolean flag indicating a true/false depending on the status
+	 */
+	public boolean isContactDuplicate(Contact contactParam)
+	{
+		logger.info("isContactDuplicate() invoked");
+		
+		boolean isDuplicate = false;
+		
+		for (Contact contact : contactList) 
+		{
+			/* Logic: TFor now we will verify the Contact No alone */
+			if(contact.getContactNo().equals(contactParam.getContactNo())) 
+			{
+				logger.error("Contact No already present in the list!");
+				isDuplicate = true;
+				break;
+			}
+		}
+		
+		logger.info("isDuplicate ? " + isDuplicate);
+		
+		return isDuplicate;
+		
+	}
+	
 	/* ================================================ */
 	/* 				Getters and Setters					*/
 	/* ================================================ */
@@ -119,6 +161,56 @@ public class ContactServiceImpl implements ContactService
 	 */
 	public static void setContactList(List<Contact> contactList) {
 		ContactServiceImpl.contactList = contactList;
+	}
+
+	@Override
+	public Optional<Contact> getContactById(int id) 
+	{	
+		Optional<Contact> optionalContact = Optional.empty();
+		
+		/* 
+		 * Q: Why we don't use the contactList.get(id)?
+		 * A: Because it is the index and NOT the id ! 
+		 */
+		//return contactList.get(id);
+		
+		/* The recommended way is to loop through the list and find for a match */
+		for (Contact contact : contactList) 
+		{
+			if(contact.getId()==id)
+			{
+				optionalContact = Optional.of(contact);
+				break;
+			}
+		}
+		
+		return optionalContact;
+	}
+
+	@Override
+	public void updateContact(Contact contact) 
+	{
+		System.out.println("updateContact invoked!");
+		
+		/**
+		 * Because we use a hardcoded list of data now,
+		 * we can remove the existing object/item from the list matching with the Id, 
+		 * and then add it further into the same list.	
+		 */
+		Optional<Contact> optionalContact = getContactById(contact.getId());
+		
+		if(optionalContact.isPresent())
+		{
+			System.out.println("size of the contactList before removal : " + contactList.size());
+			contactList.remove(contact);
+			
+			System.out.println("size of the contactList after removal : " + contactList.size());
+			contactList.stream().forEach(System.out::println);
+			
+			contactList.add(contact);
+			System.out.println("size of the contactList after addition : " + contactList.size());
+			contactList.stream().forEach(System.out::println);
+		}
 	}
 
 }

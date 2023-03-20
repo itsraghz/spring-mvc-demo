@@ -93,6 +93,26 @@ For any feature/module/service, we follow the steps.
 * Validation
    * [DONE] No null/empty values - kind of taken care in the UI with the `required` attribute in the `input` tag/element
    * Server Side Validation - at the Controller level
-     * Missing or empty values - through `@Valid` annotation 
-     * Duplicate Values 
+     * [DONE] Missing or empty values - through `@Valid` annotation 
+     * [DONE] Duplicate Values 
 * [DONE] Reduce the repeating `@RequestParam` for each of the parameters passed via the Request
+
+* addContacts.jsp Page 
+	* Add a red color star to indicate that a  particular field is mandatory (whichever is really required)
+	* Add the necessary back end validation for all the applicable fields - except the firstName and lastName which we have done it so far.
+	* [WIP] Alignment of the columns - fields and values for each input
+	
+	
+### Contact - Read
+
+* JUnit
+* Service
+* Controller
+* UI
+
+### Contact - Update
+
+* JUnit
+* Service
+* Controller
+* UI

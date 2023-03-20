@@ -47,6 +47,7 @@
 						<th class="text-center">Email</th>
 						<th class="text-center">Notes</th>
 						<th class="text-center">Tag</th>
+						<th class="text-center">Action</th>
 					</tr>
 				</thead>
 				<tbody class="table-group-divider">
@@ -60,6 +61,10 @@
 							<td>${contact.email}</td>
 							<td>${contact.notes}</td>
 							<td>${contact.tag}</td>
+							<td>
+								<a href="contact?id=${contact.id}">View</a> &nbsp; | &nbsp;
+								<a href="update-contact?id=${contact.id}">Update</a>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>

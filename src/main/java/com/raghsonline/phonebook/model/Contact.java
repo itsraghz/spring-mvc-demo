@@ -2,6 +2,7 @@ package com.raghsonline.phonebook.model;
 
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,10 +39,13 @@ public class Contact
 	 * as a String in YYYY-MM-DD format.
 	 * </p>
 	 */
+	@NotBlank(message = "Date of Birth should NOT be blank")
 	private String dob;
 	
+	@NotBlank(message = "Contact No. should NOT be blank")
 	private String contactNo;
 	
+	@NotBlank(message = "Email should NOT be blank")
 	private String email;
 	
 	/**

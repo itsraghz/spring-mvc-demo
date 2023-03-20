@@ -1,7 +1,6 @@
 package com.raghsonline.jee;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,8 +47,8 @@ public class LoginServlet extends HttpServlet
 	{
 		System.out.println("LoginServlet - doPost() invoked");
 		
-		PrintWriter out = response.getWriter();
 		/* Just for the initial sanity */
+		//PrintWriter out = response.getWriter();
 		//out.println("Login request received!");
 		
 		String userName = (String) request.getParameter("userName");
