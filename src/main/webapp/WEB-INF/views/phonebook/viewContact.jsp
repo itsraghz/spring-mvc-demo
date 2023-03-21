@@ -14,6 +14,9 @@
 			<h1>Phonebook - View Contact</h1>
 			<%
 				Object contactObj = request.getAttribute("contact");
+				Object messageObj = request.getAttribute("message");
+				
+				String message = (null!=messageObj) ? (String) messageObj : null;
 			
 				if(null==contactObj)
 				{
@@ -27,6 +30,15 @@
 					if(null!=contactObj)
 					{
 						contact = (Contact) contactObj;
+					}
+					
+					if(null!=message) 
+					{
+			%>
+						<span style="background-color: teal; color: white;">
+							${message}
+						</span>
+			<% 	
 					}
 			%>										
 					<table class="table table-striped table-hover table-bordered 
@@ -76,6 +88,7 @@
 			<%
 				}
 			%>
+			<a href="contacts" class="btn btn-primary">View All Contacts</a>
 		</div>
 		<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 		<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>

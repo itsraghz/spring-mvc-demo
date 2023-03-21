@@ -116,3 +116,36 @@ For any feature/module/service, we follow the steps.
 * Service
 * Controller
 * UI
+
+#### Troubleshooting
+
+* Issue : The update was not properly happening
+* Solution : 
+	* Domain - manualy provide the `hashCode()` and `equals()` method, than the one given by Lombok.
+	* Reduced the width of the @Size attribute for the lastName field - from 4 to 2.
+* Issue : The contact being attempted with the existing contact #. Because it is a hard coded list we manage in Phase 1 and we execute in two steps. First, we remove the item first and then adding the list later to the list. Here the removal fo an item is successful but the addition gets failed due to the validaiton for Duplicate based on the Contact #. Hence, the operation is partially completed! :( It is NOT the desired way.  Either we should do it ALL or NONE - honoring the ACID style (Atomicity, Consistency, Isolation and Durability).
+* Solution : Use Transaction Management - either manually using the JTA (Java Transaction API) (old style), OR let the framework like Spring manage it for us, as that was one of the primary goals of such frameworks.
+
+#### Enhancements 
+
+* Redirecting to 'contacts.jsp' page after addContact.
+* Add RedirectAttributes to add a flash message, than using the Model or the ModelMap.
+
+
+### Contact - Delete
+
+* JUnit
+* Service
+* Controller
+* UI
+
+## TODO
+
+* UI
+	* Reusable fragments - header, footer and Menu. #Assignment | Menus - Home, Contacts
+	* Add a Bootstrap button to the View, update, Delete in contacts.jsp page.
+
+* Pending /TBD Later
+	* Add a favico - `<link rel="icon" type="image/x-icon" href="/images/favicon.ico">`
+* Transaction - UoW (Unit of Work)
+	*  All steps involved in the business acitivty should be completed and `commit`ted, in case of any failures in the middle, the entire operation should be `rolled back`. 

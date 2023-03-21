@@ -1,8 +1,11 @@
 package com.raghsonline.phonebook.model;
 
+import java.util.Objects;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +33,7 @@ public class Contact
 	@Size(min = 4, message = "First Name should have a min of 4 characters")
 	private String firstName;
 	
-	@Size(min = 4, message = "Last Name should have a min of 4 characters")
+	@Size(min = 2, message = "Last Name should have a min of 4 characters")
 	private String lastName;
 	
 	/**
@@ -60,4 +63,36 @@ public class Contact
 	 * </p>
 	 */
 	private String tag;
+	
+	@Override
+	public int hashCode() 
+	{
+		System.out.println("Contact - hashCode() invoked, hashCode " + Objects.hash(id));
+		//return Objects.hash(id);
+		return this.id; /* simplest way */
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		System.out.println("Contact - equals invoked");
+		System.out.println("Object : " + obj);
+		
+		if (this == obj) {
+			System.out.println("....this==obj, returning true");
+			return true;
+		}
+		if (obj == null) {
+			System.out.println("....obj==null, returning false");
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			System.out.println("....getClass()!=obj.getClass(), returning false");
+			return false;
+		}
+		
+		Contact other = (Contact) obj;
+		System.out.println("....id==other.id ? " + (id==other.id));
+		return id == other.id;
+	}
 }

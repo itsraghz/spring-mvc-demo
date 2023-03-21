@@ -130,6 +130,13 @@ public class TestContactServiceImpl
 		
 		int id = 1;
 		
+		return getContact(id);
+	}
+
+	public Optional<Contact> getContact(int id)
+	{
+		System.out.println("getContact(id) invoked, id="+id);
+		
 		Optional<Contact> contact = contactService.getContactById(id);
 		
 		// Old style 
@@ -157,7 +164,7 @@ public class TestContactServiceImpl
 	@Test
 	@DisplayName("Updating the attributes of a Contact object")
 	@Order(4)
-	public void updateContact()
+	public void updateContact() throws BusinessException
 	{
 		System.out.println("updateContact() invoked");
 		
@@ -181,11 +188,36 @@ public class TestContactServiceImpl
 		
 		contactService.updateContact(contact);
 		
-		Contact updatedContact = getContact().get();
+		/* Good deal, to add+1 to the size, as we always remove one and add one into the List */
+		int lastInsertedId = contactService.getAllContacts().size()+1;
+		
+		Contact updatedContact = getContact(lastInsertedId).get();
 		System.out.println("updatedContact obtained from getContact() : "+ updatedContact);
 		System.out.println("### Hashcode of the updatedContact : "+ updatedContact.hashCode());
 		
 		assertNotNull(updatedContact);
 		assertTrue(updatedContact.getNotes().endsWith("#Updated"));
+	}
+	
+	@Test
+	@DisplayName("Deletion of a Contact")
+	@Order(5)
+	public void deleteContact()
+	{
+		/* 
+		 * We can delete a contact by two ways 
+		 * 
+		 * 1. Using the ID - Sequence (Index) - We can use this for now.
+		 * 2. Using the ContactNo - Primary Key 
+		 */
+		
+		int id = 3;
+		boolean status = contactService.deleteContact(id);
+		
+		System.out.println("Deletion status - " + status);
+		
+		assertTrue(status);
+		
+		contactService.getAllContacts().stream().forEach(logger::debug);
 	}
 }

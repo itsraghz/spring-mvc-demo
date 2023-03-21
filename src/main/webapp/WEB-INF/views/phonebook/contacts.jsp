@@ -8,11 +8,28 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Phonebook | Contacts</title>
+		<link rel="icon" type="image/x-icon" href="<%=request.getContextPath() %>/images/favicon.ico">
 		<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="contacts" class="container">
-			<h1>PhoneBook - Contacts</h1>
+				<h1>PhoneBook - Contacts</h1>
+		<%
+			Object messageObj = request.getAttribute("message");
+		
+			String message = (null!=messageObj) ? (String) messageObj : null;
+			
+			if(null!=message) 
+			{
+		%>			
+				<div id="message">
+					<span style="background-color: teal; color: white;">
+						${message}
+					</span>
+				</div>
+		<% 	
+			}
+		%>	
 				<p>
 					Please find all the contacts in your Phonebook.
 				</p> 
@@ -63,7 +80,8 @@
 							<td>${contact.tag}</td>
 							<td>
 								<a href="contact?id=${contact.id}">View</a> &nbsp; | &nbsp;
-								<a href="update-contact?id=${contact.id}">Update</a>
+								<a href="update-contact?id=${contact.id}">Update</a>&nbsp; | &nbsp;
+								<a href="delete-contact?id=${contact.id}">Delete</a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -79,7 +97,9 @@
 						
 						See the value in href - it has the urlPattern than the actual .jsp file
 				 -->
-				Click <a href="add-contact">here</a> to add a new Contact.
+				<!-- Click <a href="add-contact">here</a> to add a new Contact.
+				<button type="submit" class="btn btn-primary">Add</button> -->
+				<a href="add-contact" class="btn btn-info" role="button">Add Contact</a> 
 			</div>
 		</div>
 	</body>

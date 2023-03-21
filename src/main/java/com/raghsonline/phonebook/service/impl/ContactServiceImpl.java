@@ -166,6 +166,8 @@ public class ContactServiceImpl implements ContactService
 	@Override
 	public Optional<Contact> getContactById(int id) 
 	{	
+		logger.info("getContactById() invoked with id - " + id);
+		
 		Optional<Contact> optionalContact = Optional.empty();
 		
 		/* 
@@ -188,7 +190,7 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public void updateContact(Contact contact) 
+	public void updateContact(Contact contact) throws BusinessException 
 	{
 		System.out.println("updateContact invoked!");
 		
@@ -199,18 +201,62 @@ public class ContactServiceImpl implements ContactService
 		 */
 		Optional<Contact> optionalContact = getContactById(contact.getId());
 		
-		if(optionalContact.isPresent())
+		if(optionalContact.isEmpty())
 		{
-			System.out.println("size of the contactList before removal : " + contactList.size());
-			contactList.remove(contact);
-			
-			System.out.println("size of the contactList after removal : " + contactList.size());
-			contactList.stream().forEach(System.out::println);
-			
-			contactList.add(contact);
-			System.out.println("size of the contactList after addition : " + contactList.size());
-			contactList.stream().forEach(System.out::println);
+			System.out.println("Contact is not available!");
+			return;
 		}
+		
+		System.out.println("contact matching : " + optionalContact.get());
+		
+		System.out.println("size of the contactList before removal : " + contactList.size());
+		contactList.remove(contact);
+		
+		System.out.println("size of the contactList after removal : " + contactList.size());
+		contactList.stream().forEach(System.out::println);
+		
+		//contactList.add(contact);
+		addContact(contact);
+		
+		System.out.println("size of the contactList after addition : " + contactList.size());
+		contactList.stream().forEach(System.out::println);
+	}
+
+	@Override
+	public boolean deleteContact(int id)
+	{
+		logger.info("deleteContact() invoked with id - " + id);
+		
+		/* Trouble: You pass it as ID but the JDK/JVM treats it for Index */
+		//Contact contactRemoved = contactList.remove(id);
+		
+		/* 
+		 * Solution : We can solve it in two different ways
+		 * 
+		 *  1. Using the remove(Object o) method and pass the actual Object instance for deletion
+		 *  	than remove(int index).
+		 *  	Note:  remove(int index) returns the Object which was present before removal
+		 *  		   remove(Object o) returns a boolean status for the removal operation.
+		 *  
+		 *  2. TODO: Assignment (21 Mar 2023)Iterate the list and find out the index of the matching object, 
+		 *  	then pass it to the remove(int index) method.
+		 * 
+		 */
+
+		//Contact contactRemoved = null;
+		boolean removalStatus = false;
+		Contact contactToBeDeleted = null;
+		
+		Optional<Contact> optionalContact = getContactById(id);
+		
+		if(optionalContact.isPresent()) {
+			contactToBeDeleted = optionalContact.get();
+			removalStatus = contactList.remove(contactToBeDeleted);
+		}
+		
+		logger.info("removalStatus :: " + removalStatus);
+		
+		return removalStatus;
 	}
 
 }
