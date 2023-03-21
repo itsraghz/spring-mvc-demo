@@ -143,7 +143,10 @@ For any feature/module/service, we follow the steps.
 
 * UI
 	* Reusable fragments - header, footer and Menu. #Assignment | Menus - Home, Contacts
-	* Add a Bootstrap button to the View, update, Delete in contacts.jsp page.
+	* Add a Bootstrap button to the View
+	* Add the alignment for all the colums in the `addContact.jsp` page and do the necessary validations
+	* Checkout the person specific branch created in the GitHub Repo  `https://github.com/itsraghz/spring-mvc-demo/tree/Assignment1-UI-21Mar2023-Rama` and push your code in to the corresponding branch (Remote Feaure Branch). 
+	* The one scores high, will get merged with the PR (Pull Request) into the remote master/main branch.
 
 * Pending /TBD Later
 	* Add a favico - `<link rel="icon" type="image/x-icon" href="/images/favicon.ico">`

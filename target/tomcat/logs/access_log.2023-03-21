@@ -521,3 +521,4 @@
 127.0.0.1 - - [21/Mar/2023:16:07:20 +0530] "GET /spring-mvc-demo/add-contact HTTP/1.1" 200 2598 http-bio-8080-exec-8 38
 127.0.0.1 - - [21/Mar/2023:16:07:27 +0530] "GET /spring-mvc-demo/update-contact?id=3 HTTP/1.1" 200 2600 http-bio-8080-exec-8 25
 127.0.0.1 - - [21/Mar/2023:16:07:30 +0530] "GET /spring-mvc-demo/contact?id=3 HTTP/1.1" 200 1534 http-bio-8080-exec-8 35
+127.0.0.1 - - [21/Mar/2023:16:14:42 +0530] "GET /spring-mvc-demo/add-contact HTTP/1.1" 200 2598 http-bio-8080-exec-10 28
