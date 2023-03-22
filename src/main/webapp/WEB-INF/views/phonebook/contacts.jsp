@@ -1,19 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@page import ="java.util.List, com.raghsonline.phonebook.model.Contact, 
 		org.springframework.ui.ModelMap" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Phonebook | Contacts</title>
-		<link rel="icon" type="image/x-icon" href="<%=request.getContextPath() %>/images/favicon.ico">
-		<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-	</head>
-	<body>
-		<div id="contacts" class="container">
-				<h1>PhoneBook - Contacts</h1>
+<%@include file="inc/header.jsp"%>
+
+<h1 style="color:Blue;">PhoneBook - Contacts</h1>
 		<%
 			Object messageObj = request.getAttribute("message");
 		
@@ -22,10 +12,12 @@
 			if(null!=message) 
 			{
 		%>			
-				<div id="message">
-					<span style="background-color: teal; color: white;">
-						${message}
-					</span>
+				<div class="row">
+					<div class="col-12" align="center">
+						<div class="alert alert-success" role="alert">
+							<%=message%>
+						</div>
+					</div>
 				</div>
 		<% 	
 			}
@@ -53,9 +45,9 @@
 				%>
 			<table class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
-				<caption>View All Contacts</caption>
+				<caption style="color:Red;">View All Contacts</caption>
 				<thead>
-					<tr>	
+					<tr style="color:#8B008B;">	
 						<th class="text-center">Id</th>
 						<th class="text-center">FirstName</th>
 						<th class="text-center">LastName</th>
@@ -69,7 +61,7 @@
 				</thead>
 				<tbody class="table-group-divider">
 					<c:forEach var="contact" items="${contacts}">
-						<tr>
+						<tr style="color:blue;">
 							<td>${contact.id}</td>
 							<td>${contact.firstName}</td>
 							<td>${contact.lastName}</td>
@@ -79,9 +71,9 @@
 							<td>${contact.notes}</td>
 							<td>${contact.tag}</td>
 							<td>
-								<a href="contact?id=${contact.id}">View</a> &nbsp; | &nbsp;
-								<a href="update-contact?id=${contact.id}">Update</a>&nbsp; | &nbsp;
-								<a href="delete-contact?id=${contact.id}">Delete</a>
+								<a href="contact?id=${contact.id}" class="btn btn-info" role="button">View</a> &nbsp; | &nbsp;
+								<a href="update-contact?id=${contact.id}" class="btn btn-info" role="button">Update</a> &nbsp; | &nbsp;
+								<a href="delete-contact?id=${contact.id}" class="btn btn-danger" role="button">Delete</a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -101,6 +93,4 @@
 				<button type="submit" class="btn btn-primary">Add</button> -->
 				<a href="add-contact" class="btn btn-info" role="button">Add Contact</a> 
 			</div>
-		</div>
-	</body>
-</html>
+<%@include file="inc/footer.jsp" %>
