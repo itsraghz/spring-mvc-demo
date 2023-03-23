@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
+import com.raghsonline.phonebook.repository.DAO;
 import com.raghsonline.phonebook.service.ContactService;
 
 @Service
@@ -23,6 +25,14 @@ public class ContactServiceImpl implements ContactService
 	
 	/**
 	 * <p>
+	 * A dependency of the Repository laye on the Contact DAO.
+	 * </p>
+	 */
+	@Autowired
+	DAO<Contact> contactDAO;
+	
+	/**
+	 * <p>
 	 * A class level (static) counter to track the running 
 	 * sequence number of the entries being added into the 
 	 * List.
@@ -30,9 +40,15 @@ public class ContactServiceImpl implements ContactService
 	 */
 	static int counter = 0;
 	
-	public ContactServiceImpl()
+	/*public ContactServiceImpl()
 	{
 		logger.info("ContactServiceImpl instantiated....");
+	}*/
+	
+	public ContactServiceImpl(DAO<Contact> contactDAO)
+	{
+		logger.info("ContactServiceImpl instantiated, contactDAO="+contactDAO);
+		this.contactDAO = contactDAO;
 	}
 
 	/**
@@ -109,9 +125,19 @@ public class ContactServiceImpl implements ContactService
 		
 		logger.info("Contact object supplied with the actual counter : " + contact);
 
-		contactList.add(contact);
+		/** 
+		 * Here is what we adjust the links 
+		 * 
+		 * 1. Cut the link from Service to hardcoded list
+		 * 2. Add the new link (Service to Repository)
+		 * 
+		 */
+		//contactList.add(contact);
+		//return contact.getId();
 		
-		return contact.getId();
+		int newlyInseredId = contactDAO.create(contact);
+		logger.info("newlyInseredId : " + newlyInseredId);
+		return newlyInseredId;
 	}
 	
 	/**

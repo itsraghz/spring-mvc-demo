@@ -36,6 +36,12 @@
 			<!-- ===================================== -->
 			<!--<version>5.3.25</version>-->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.3.30.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
 		<!--<dependency>
 			<groupId>org.apache.tomcat.maven</groupId>

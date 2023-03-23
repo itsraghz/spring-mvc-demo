@@ -152,3 +152,55 @@ For any feature/module/service, we follow the steps.
 	* Add a favico - `<link rel="icon" type="image/x-icon" href="/images/favicon.ico">`
 * Transaction - UoW (Unit of Work)
 	*  All steps involved in the business acitivty should be completed and `commit`ted, in case of any failures in the middle, the entire operation should be `rolled back`. 
+
+# Spring JDBC
+
+* Plain old Java with JDBC
+	- List of steps involved
+	- Most of the steps like Obaining the Connection, Creating the statement, Dealing with the SQLException, Closing the resources (ResultSet, Statement(OR PreparedStmt), Connection) - are called as Ceremonies OR also the boiler plate code
+		-  The Reason being no matter what business logic you have, you must have all these without fail.
+		-  And it does not add any direct value to your busines. 
+	- Savior / Rescue - Spring JDBC
+> Note: Motto of the Spring Framework : - To Simplify Application Development
+
+## How does Spring JDBC Help?
+
+ * It covers / wraps the boiler plate code under the hood, so that the Devleoper can just focus on the actual business logic OR the lines that really matters to him /his business. 
+ 
+## Reference 
+
+We use Spring Framework V 4.3.30, and hence we refer this (link)[https://docs.spring.io/spring-framework/docs/4.3.30.RELEASE/spring-framework-reference/html/jdbc.html#jdbc-introduction] for Spring JDBC.
+
+## How do I make use of Spring JDBC ?
+
+* Find out the compatible version of *Spring JDBC* from the URL https://mvnrepository.com/artifact/org.springframework/spring-jdbc to be added in the `pom.xml` file of our project. For our case, we choose '4.3.30.RELEASE' version that is matching with our Spring Core (spring-context).
+
+* We should declare a `DataSource` of `java.sql`, as a `@Bean` in the `@Configuration` class
+* We can have an Interface for the CRUD operations based on the Domain object.
+* This Datasource bean should be injected to the `Service` layers.	
+* JDBCTemplate method - `execute` or `queryXXx`
+* Implementation of the `RowMapper` interface to map the data on a per-row basis, by implementing the `mapRow() method declared in the interface.
+* Before executing the Test class, ensure that we have the actual Table available in the Database. :) 
+
+## What will be the data flow in the Application involving Spring JDBC ?
+
+### With Web (MVC)
+
+View/Client <--> Controller <--> Service <--> Repository <--> [JDBC <-->] Database (Actual Database)
+
+> *Note*: Service layer should have Datasource injected, which is declared as a `@Bean` in a `@Configuration` class.
+
+### Without Web (MVC)
+
+Client <--> [Service] <--> [Repository] <--> [JDBC <-->] Database (Actual Database)
+
+* Any or both of the layers can be kept optional. But at least you need layer in the Backend. 
+
+> *Note*: If you keep both of them optiona, then you must have one layer as a Controller (a central layer to get all requests from the Client and regulate the flow).
+
+### How do I invoke the layers from a Test class? 
+
+Typically in a Test class, we may NOT have the Controller available. In that case, we can skip that, and
+direclty invoke the Service/Repository (depends on what you configured in the Application) and invoke the flow.
+
+> *Note*: Whenever we say Service/ Repository for injecting the dependencies, we really speak about the Implementation class at the respective layer, and certainly NOT the Interface.

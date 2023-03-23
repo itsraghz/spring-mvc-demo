@@ -38,7 +38,8 @@ public class TestContactServiceImpl
 	 * we will bring in @Autowired of Spring Container/Context. 
 	 * </p>
 	 */
-	ContactService contactService = new ContactServiceImpl();
+	//TODO Rectify the arg to constructor later.
+	ContactService contactService = new ContactServiceImpl(null);
 	
 	@Test
 	@DisplayName("GetAllContacts should return min 4 contacts")
