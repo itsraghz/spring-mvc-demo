@@ -13,7 +13,9 @@
 </head>
 <body>
 	<div id="contacts" class="container">
-		<h1><span style = color:blue><b>Phonebook - View Contact </b></span></h1>
+		<h1>
+			<span style="color: #43302e"><b>Phonebook - View Contact </b></span>
+		</h1>
 		<%
 		Object contactObj = request.getAttribute("contact");
 		Object messageObj = request.getAttribute("message");
@@ -34,17 +36,24 @@
 
 		if (null != message) {
 		%>
-		<span style="background-color: teal; color: white;"> ${message}
-		</span>
+		<div class="row">
+			<div class="col-12" align="center">
+				<div class="alert alert-success" role="alert">
+					<%=message%>
+				</div>
+			</div>
+		</div>
 		<%
 		}
 		%>
 		<table
 			class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
-			<caption style=color:green><b>View Contact</b></caption>
+			<caption style="color: #43302e">
+				<b>View Contact</b>
+			</caption>
 			<thead>
-				<tr style=color:green>
+				<tr style="color: #43302e">
 					<th>Field</th>
 					<th>Value</th>
 				</tr>
@@ -87,7 +96,12 @@
 		<%
 		}
 		%>
-		<!-- <a href="contacts" class="btn btn-primary">View All Contacts</a> -->
+		<a href="update-contact?id=${contact.id}" class="btn btn-info"
+			role="button">Update</a>
+		<a href="delete-contact?id=${contact.id}" class="btn btn-danger"
+			role="button">Delete</a>
+			 <a href="contacts" class="btn btn-primary">View
+			All Contacts</a>
 	</div>
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>

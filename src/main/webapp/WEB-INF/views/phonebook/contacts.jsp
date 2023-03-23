@@ -17,7 +17,19 @@
 </head>
 <body>
 	<div id="contacts" class="container">
-		<h1><span style = color:blue><b> PhoneBook - Contacts </b></span></h1>
+		<%
+		String name = (String) request.getAttribute("name");
+		if (null != name) {
+		%>
+		<h2>
+			<span style="color: #008000">Welcome ${name}!</span>
+		</h2>
+		<%
+		}
+		%>
+		<h1>
+			<span style="color: #43302e"><b> PhoneBook - Contacts </b></span>
+		</h1>
 		<%
 		Object messageObj = request.getAttribute("message");
 
@@ -25,16 +37,21 @@
 
 		if (null != message) {
 		%>
-		<div id="message">
-			<span style="background-color: teal; color: white;">
-				${message} </span>
+		<div class="row">
+			<div class="col-12" align="center">
+				<div class="alert alert-success" role="alert">
+					<%=message%>
+				</div>
+			</div>
 		</div>
 		<%
 		}
 		%>
-		<p><span style = color:green><b>Please find all the contacts 
-		in your Phonebook.</b>
-		</span></p>
+
+		<p>
+			<span style="color: #43302e"><b>Please find all the
+					contacts in your Phonebook.</b> </span>
+		</p>
 		<!--  Equivalent to out.println("Hello, JSTL") -->
 		<!--<c:out value="Hello, JSTL"></c:out> -->
 		<%
@@ -46,8 +63,8 @@
 		out.println("<br/>");
 		for(Contact contact : contactList)
 		{
-		    out.println(contact);
-		    out.println("<br/>");
+		out.println(contact);
+		out.println("<br/>");
 		}
 		out.println("<br/>");
 		out.println("===========================");
@@ -56,18 +73,20 @@
 		<table
 			class="table table-striped table-hover table-bordered
                                                 table-responsive caption-top">
-			<caption style=color:green><b>View All Contacts</b></caption>
+			<caption style="color: #43302e">
+				<b>View All Contacts</b>
+			</caption>
 			<thead>
-				<tr style=color:green >
-					<th class="text-center">Id</th>
-					<th class="text-center">FirstName</th>
-					<th class="text-center">LastName</th>
-					<th class="text-center">DOB</th>
-					<th class="text-center">Contact No</th>
-					<th class="text-center">Email</th>
-					<th class="text-center">Notes</th>
-					<th class="text-center">Tag</th>
-					<th class="text-center">Action</th>
+				<tr style="color: #43302e">
+					<th class="text-center"><b>Id</b></th>
+					<th class="text-center"><b>FirstName</b></th>
+					<th class="text-center"><b>LastName</b></th>
+					<th class="text-center"><b>DOB</b></th>
+					<th class="text-center"><b>Contact No</b></th>
+					<th class="text-center"><b>Email</b></th>
+					<th class="text-center"><b>Notes</b></th>
+					<th class="text-center"><b>Tag</b></th>
+					<th class="text-center"><b>Action</b></th>
 				</tr>
 			</thead>
 			<tbody class="table-group-divider">
@@ -81,13 +100,12 @@
 						<td>${contact.email}</td>
 						<td>${contact.notes}</td>
 						<td>${contact.tag}</td>
-						<td><a href="contact?id=${contact.id}" class="btn btn-primary"
-							role="button">View</a>
-							<a href="update-contact?id=${contact.id}" class="btn btn-info"
-							role="button">Update</a>
-							<a href="delete-contact?id=${contact.id}" class="btn btn-danger"
-							role="button">Delete</a>
-						</td>
+						<td><a href="contact?id=${contact.id}"
+							class="btn btn-primary" role="button">View</a> <a
+							href="update-contact?id=${contact.id}" class="btn btn-info"
+							role="button">Update</a> <a
+							href="delete-contact?id=${contact.id}" class="btn btn-danger"
+							role="button">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -104,8 +122,8 @@
                                  -->
 			<!-- Click <a href="add-contact">here</a> to add a new Contact.
                                 <button type="submit" class="btn btn-primary">Add</button> -->
-			<!--  <a href="add-contact" class="btn btn-info" role="button">Add
-				Contact</a>-->
+			<a href="add-contact" class="btn btn-primary" role="button">Add
+				Contact</a>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/phonebook/inc/footer.jsp"%>

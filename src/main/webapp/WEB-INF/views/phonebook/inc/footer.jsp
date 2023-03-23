@@ -5,7 +5,7 @@
 <footer class="footer mt-auto py-3 panel-footer panel-custom">
 	<div class="container">
 		<span class="text-muted">&copy; Raghavan alias Saravanan Muthu
-			| V 1.0 - Last Modified on 22 Mar 2023, Wednesday</span>
+			| V 1.0 - Last Modified on 23 Mar 2023, Thursday</span>
 	</div>
 </footer>
 <!-- JavaScript Bundle with Popper -->

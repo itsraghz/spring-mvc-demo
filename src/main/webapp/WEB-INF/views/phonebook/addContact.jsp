@@ -16,13 +16,13 @@
 	<div id="contacts" class="container">
 
 		<h1>
-			<span style="color: blue"><b>PhoneBook - Add Contact</b></span>
+			<span style="color: #43302e"><b>PhoneBook - Add Contact</b></span>
 		</h1>
 		<form:form method="POST" commandName="contact">
 			<div class="form-group row">
 				<form:label path="firstName" for="fName"
 					class="col-sm-2 col-form-label">
-					<span style="color: blue">First Name</span>
+					<span style="color: #43302e">First Name</span>
 					<span class="required" style="color: red">*</span>
 				</form:label>
 				<div class="col-sm-10">
@@ -35,7 +35,7 @@
 			<div class="form-group row">
 				<form:label path="lastName" for="lName"
 					class="col-sm-2 col-form-label">
-					<span style="color: blue">Last Name</span>
+					<span style="color: #43302e">Last Name</span>
 					<span class="required" style="color: red">*</span>
 				</form:label>
 				<div class="col-sm-10">
@@ -47,7 +47,7 @@
 
 			<div class="form-group row">
 				<form:label path="dob" for="dob" class="col-sm-2 col-form-label">
-					<span style="color: blue"> Date of Birth </span>
+					<span style="color: #43302e"> Date of Birth </span>
 					<span class="required" style="color: red">*</span>
 				</form:label>
 				<div class="col-sm-10">
@@ -60,7 +60,7 @@
 			<div class="form-group row">
 				<form:label path="contactNo" for="contactNo"
 					class="col-sm-2 col-form-label">
-				<span style = color:blue> Contact No </span> <span class="required" style="color: red">*</span>
+				<span style = color:#43302e> Contact No </span> <span class="required" style="color: red">*</span>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="contactNo" type="text" id="contactNo"
@@ -71,7 +71,7 @@
 
 			<div class="form-group row">
 				<form:label path="email" for="email" class="col-sm-2 col-form-label">
-				<span style = color:blue> Email Address </span>
+				<span style = color:#43302e> Email Address </span>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="email" type="text" id="email" name="email"
@@ -82,7 +82,7 @@
 
 			<div class="form-group row">
 				<form:label path="notes" for="notes" class="col-sm-2 col-form-label">
-				<span style = color:blue> Notes </span>
+				<span style = color:#43302e> Notes </span>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="notes" type="text" id="notes" name="notes"
@@ -93,7 +93,7 @@
 
 			<div class="form-group row">
 				<form:label path="tag" for="tag" class="col-sm-2 col-form-label">
-				<span style = color:blue> Tag </span></form:label>
+				<span style = color:#43302e> Tag </span></form:label>
 				<div class="col-sm-10">
 					<form:input path="tag" type="text" id="tag" name="tag" size="20"
 						placeholder="Any meaningful short name to group/classify this Contact" />

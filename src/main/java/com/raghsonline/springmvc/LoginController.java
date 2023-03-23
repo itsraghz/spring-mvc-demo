@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.raghsonline.phonebook.service.ContactService;
+
 //Through @Controller we indicate Spring that this class
 //will now act as a receiving end (component) for all the
 //associated requests (for login).
@@ -23,6 +25,9 @@ public class LoginController
 	
 	@Autowired //this will pick up an instance of LoginService and assign it
 	LoginService service;
+	
+	@Autowired
+	ContactService contactService;
 	
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	@ResponseBody
@@ -108,7 +113,9 @@ public class LoginController
 		if(isValidUser)
 		{
 			model.addAttribute("name", userName);
-			return "welcome";
+			model.addAttribute("contacts", contactService.getAllContacts());
+			//return "welcome";
+			return "phonebook/contacts";
 		} else {
 			model.addAttribute("errorMessage", "Invalid Credentials");
 			return "login";
