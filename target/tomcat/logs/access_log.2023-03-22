@@ -1,0 +1,7 @@
+127.0.0.1 - - [22/Mar/2023:09:23:22 +0530] "GET /spring-mvc-demo/api/hello/weekdays HTTP/1.1" 406 1067 http-bio-8080-exec-1 143
+127.0.0.1 - - [22/Mar/2023:09:23:24 +0530] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-2 0
+127.0.0.1 - - [22/Mar/2023:09:23:28 +0530] "GET /spring-mvc-demo/api/ HTTP/1.1" 404 949 http-bio-8080-exec-4 33
+127.0.0.1 - - [22/Mar/2023:09:23:33 +0530] "GET /spring-mvc-demo/api/hello HTTP/1.1" 200 62 http-bio-8080-exec-5 80
+127.0.0.1 - - [22/Mar/2023:09:23:35 +0530] "GET /spring-mvc-demo/api/hello2 HTTP/1.1" 200 38 http-bio-8080-exec-6 43
+127.0.0.1 - - [22/Mar/2023:09:23:40 +0530] "GET /spring-mvc-demo/api/hello/Raghs HTTP/1.1" 200 12 http-bio-8080-exec-7 70
+127.0.0.1 - - [22/Mar/2023:09:23:57 +0530] "GET /spring-mvc-demo/api/hello/weekdays HTTP/1.1" 406 1067 http-bio-8080-exec-8 23

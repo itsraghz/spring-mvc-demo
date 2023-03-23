@@ -12,6 +12,9 @@
 	<body>
 		<div id="contacts" class="container">
 			<h1>Phonebook - View Contact</h1>
+			<div id="greeting">
+				Welcome, <b>${name}</b>
+			</div>			
 			<%
 				Object contactObj = request.getAttribute("contact");
 				Object messageObj = request.getAttribute("message");

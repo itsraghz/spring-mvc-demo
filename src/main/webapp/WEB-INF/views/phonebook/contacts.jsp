@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		<div id="contacts" class="container">
-				<h1>PhoneBook - Contacts</h1>
+			<h1>PhoneBook - Contacts</h1>
+			<div id="greeting">
+				Welcome, <b>${name}</b>. Your last successful login was at : <b>${lastSuccessfulLogin}</b>
+			</div>
 		<%
 			Object messageObj = request.getAttribute("message");
 		

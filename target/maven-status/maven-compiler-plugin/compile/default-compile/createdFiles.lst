@@ -1,8 +1,10 @@
+com/raghsonline/phonebook/controller/HelloRestController.class
 com/raghsonline/phonebook/model/Contact$ContactBuilder.class
 com/raghsonline/springmvc/PathTestController.class
 com/raghsonline/phonebook/exception/BusinessException.class
 com/raghsonline/phonebook/controller/ContactController.class
 com/raghsonline/jee/LoginServlet.class
+com/raghsonline/phonebook/controller/ContactRestController.class
 com/raghsonline/springmvc/LoginService.class
 com/raghsonline/phonebook/service/ContactService.class
 com/raghsonline/springmvc/LoginController.class

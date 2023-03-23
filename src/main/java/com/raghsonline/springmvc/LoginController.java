@@ -1,18 +1,21 @@
 package com.raghsonline.springmvc;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 //Through @Controller we indicate Spring that this class
 //will now act as a receiving end (component) for all the
 //associated requests (for login).
 // Equivalent to a HttpServlet class.
 @Controller
+@SessionAttributes(names = {"name", "lastSuccessfulLogin"})
 public class LoginController 
 {
 	/* 
@@ -23,13 +26,6 @@ public class LoginController
 	
 	@Autowired //this will pick up an instance of LoginService and assign it
 	LoginService service;
-	
-	@RequestMapping(value = "/hello", method = RequestMethod.GET)
-	@ResponseBody
-	public String sayHello()
-	{
-		return "Hello Spring MVC";
-	}
 	
 	/*
 	 * A typical method equivalent to doGet() in a Servlet class.
@@ -107,7 +103,10 @@ public class LoginController
 		
 		if(isValidUser)
 		{
+			/* We would like to keep this 'name' key available in Session */
+			/* We will add this in to the different annotation called SessionAttributes at the Class Level */
 			model.addAttribute("name", userName);
+			model.addAttribute("lastSuccessfulLogin", new Date());
 			return "welcome";
 		} else {
 			model.addAttribute("errorMessage", "Invalid Credentials");

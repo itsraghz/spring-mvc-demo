@@ -10,6 +10,9 @@
 	<body>
 		<div id="contacts" class="container">
 			<h1>Phonebook - Add Contact</h1>
+			<div id="greeting">
+				Welcome, <b>${name}</b>
+			</div>			
 			<form:form method="POST" commandName="contact">
 			  <div class="form-group row">
 			    <form:label path="firstName" for="fName" class="col-sm-2 col-form-label">

@@ -3,6 +3,7 @@ package com.raghsonline.phonebook.controller;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.raghsonline.phonebook.exception.BusinessException;
@@ -30,6 +32,8 @@ import com.raghsonline.phonebook.service.ContactService;
  *
  */
 @Controller
+//@SessionAttributes("name")
+@SessionAttributes(names = {"name", "lastSuccessfulLogin"})
 public class ContactController 
 {
 	/**
