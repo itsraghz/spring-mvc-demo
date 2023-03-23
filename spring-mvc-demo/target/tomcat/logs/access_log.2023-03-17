@@ -1,0 +1,4 @@
+0:0:0:0:0:0:0:1 - - [17/Mar/2023:14:19:26 +0530] "GET /spring-mvc-demo/login HTTP/1.1" 200 874 http-bio-8080-exec-1 674
+0:0:0:0:0:0:0:1 - - [17/Mar/2023:14:19:26 +0530] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [17/Mar/2023:14:20:12 +0530] "GET /spring-mvc-demo/contacts HTTP/1.1" 200 1933 http-bio-8080-exec-4 311
+0:0:0:0:0:0:0:1 - - [17/Mar/2023:14:20:12 +0530] "GET /spring-mvc-demo/webjars/bootstrap/4.6.2/css/bootstrap.min.css HTTP/1.1" 200 162264 http-bio-8080-exec-5 15
