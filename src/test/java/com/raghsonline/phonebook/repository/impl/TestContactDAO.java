@@ -3,12 +3,20 @@ package com.raghsonline.phonebook.repository.impl;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.annotation.Order;
 
 import com.raghsonline.phonebook.config.AppConfig;
 import com.raghsonline.phonebook.exception.BusinessException;
@@ -16,6 +24,7 @@ import com.raghsonline.phonebook.model.Contact;
 import com.raghsonline.phonebook.repository.DAO;
 import com.raghsonline.phonebook.service.ContactService;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestContactDAO 
 {
 	
@@ -24,9 +33,13 @@ public class TestContactDAO
 	//@Autowired
 	static ContactService contactService;
 	
-	static ContactDAO contactDAO;
+	static DAO<Contact> contactDAO;
 	
 	static AnnotationConfigApplicationContext context;
+	
+	static String contactNo;
+	
+	static long count;
 	
 	@BeforeAll
 	public static void init()
@@ -44,12 +57,25 @@ public class TestContactDAO
 		logger.info("contactService :: " + contactService);
 		assertNotNull(contactService);
 		
-		/*DAO<Contact> dao = context.getBean(ContactDAO.class);
-		logger.info("dao :: " + dao);
-		assertNotNull(dao);
+		contactDAO = context.getBean(ContactDAO.class);
+		logger.info("dao :: " + contactDAO);
+		assertNotNull(contactDAO);
 		
-		contactDAO = (ContactDAO) dao;
-		contactDAO.cleanup();*/
+		contactNo = "3691024685";
+		
+		/* 
+		 * Here the contactDAO is of type Interface DAO<T>, which does NOT have the
+		 * cleanup() and reset() methods. Hence, a Typecasting to ContactDAO is necessary!
+		 */
+		((ContactDAO)contactDAO).cleanup();
+	}
+	
+	@BeforeEach
+	public void beforeEach() throws BusinessException
+	{
+		logger.info("beforeEach() invoked - !!!! DOING NOTHING!!!!");
+		
+		//createContact();
 	}
 	
 	@AfterAll
@@ -57,7 +83,7 @@ public class TestContactDAO
 	{
 		logger.info("cleanup() method invoked");
 		
-		//contactDAO.reset();
+		((ContactDAO)contactDAO).reset();
 	}
 	
 	/**
@@ -75,20 +101,115 @@ public class TestContactDAO
 	}*/
 	
 	@Test
+	@DisplayName("Get the count of rows from Contact Table")
+	@Order(1)
+	public void getCount()
+	{
+		logger.info("getCount() invoked!");
+		
+		count = contactDAO.getCount();
+		
+		logger.info("count :: " + count);
+	}
+	
+	@Test
 	@DisplayName("Creating a Contact should successfully return an auto-generated sequence number")
-	public void createContact() throws BusinessException
+	@Order(2)
+	public void createContact() throws BusinessException 
 	{
 		logger.info("createContact() invoked");
 		
-		Contact contact = new Contact(-1, "Spring JDBC", "Unit Testing", 
-				"2003-01-01", "3691024685", 
+		Contact contact = new Contact(0, "Spring JDBC", "Unit Testing", 
+				"2003-01-01", contactNo, 
 				"spring@jdbc.com", "Spring JDBC Unit Testing", 
 				"Java, Spring, JDBC");
 		
+		Contact contact2 = new Contact(0, "Spring JDBC2", "Unit Testing", 
+				"2003-01-02", "22222222222", 
+				"spring@jdbc2.com", "Spring JDBC Unit Testing", 
+				"Java, Spring, JDBC2");
+		
+		Contact contact3 = new Contact(0, "Spring JDBC3", "Unit Testing", 
+				"2003-01-03", "33333333333", 
+				"spring@jdbc3.com", "Spring JDBC Unit Testing", 
+				"Java, Spring, JDBC3");
+		
+		int newlyInsertedId = addContact(contact);
+		
+		assertTrue(newlyInsertedId>0);
+		
+		newlyInsertedId = addContact(contact2);
+		
+		assertTrue(newlyInsertedId>0);
+		
+		newlyInsertedId = addContact(contact3);
+		
+		assertTrue(newlyInsertedId>0);
+	}
+
+	private int addContact(Contact contact) throws BusinessException 
+	{
 		int newlyInsertedId = contactService.addContact(contact);
 		
 		logger.info("newlyInsertedId : " + newlyInsertedId);
+		return newlyInsertedId;
+	}
+	
+	@Test
+	@DisplayName("GetByContactNo should fetch the matching Contact object")
+	@Order(3)
+	public void getByContactNo() 
+	{
+		logger.info("getByContactNo() invoked!");
 		
-		assertTrue(newlyInsertedId>0);
+		logger.info("contactDAO :: " + contactDAO);
+		
+		/* Here I dont want to go via ContactService - for now, hence using the contactDAO directly */
+		Optional<Contact> optionalContact = contactDAO.getByContactNo(contactNo);
+		
+		logger.info(optionalContact);
+		
+		if(optionalContact.isPresent()) {
+			assertNotNull(optionalContact.get());
+		}	
+	}
+	
+	@Test
+	@DisplayName("Creating a Duplicate Contact should throw a BusinessException")
+	@Order(4)
+	public void createDuplicateContact()
+	{
+		logger.info("createDuplicateContact() invoked");
+		
+		Contact contact = new Contact(-1, "Spring JDBC", "Unit Testing", 
+				"2003-01-01", contactNo, 
+				"spring@jdbc.com", "Spring JDBC Unit Testing", 
+				"Java, Spring, JDBC");
+		
+		
+		Exception thrown = Assertions.assertThrows(BusinessException.class, () -> {
+			int newlyInsertedIdLocal = contactService.addContact(contact);
+			logger.info("newlyInsertedId : " + newlyInsertedIdLocal);
+			assertTrue(newlyInsertedIdLocal>0);
+		});
+		logger.error(thrown.getMessage());
+
+		Assertions.assertEquals("ContactNo already exists!", thrown.getMessage());
+	}
+	
+	@Test
+	@DisplayName("GetAll should retrieve all the available contacts")
+	@Order(5)
+	public void getAll()
+	{
+		logger.info("getAll() invoked");
+		
+		List<Contact> contactList = contactDAO.getAll();
+		
+		logger.info("contactList :: " + contactList);
+
+		assertNotNull(contactList);
+		
+		contactList.stream().forEach(logger::info);
 	}
 }

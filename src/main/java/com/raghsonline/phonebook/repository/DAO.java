@@ -1,5 +1,6 @@
 package com.raghsonline.phonebook.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,7 +34,7 @@ public interface DAO<T>
 	/**
 	 * <p>
 	 * A method to get the matching instance of the Domain object of type <tt>T</tt>,
-	 * based on the <tt>Id</tt> value passed, which is the unique key in the 
+	 * based on the <tt>Id</tt> value passed, which is the primary key in the 
 	 * Database Table / Repository (in general).
 	 * </p>
 	 * @param id the id of the row for finding a match
@@ -41,10 +42,38 @@ public interface DAO<T>
 	 */
 	public Optional<T> getById(int id); // [R] (get == getById, ID is the PK)
 	
+	/**
+	 * <p>
+	 * A method to get the matching instance of the Domain object of type <tt>T</tt>,
+	 * based on the <tt>ContactNo</tt> value passed, which is the unique key in the 
+	 * Database Table / Repository (in general).
+	 * </p>
+	 * @param contactNo the contactNo of the row for finding a match
+	 * @return the matching domain object if available, empty otherwise.
+	 */
+	public Optional<T> getByContactNo(String contactNo); // [R]
+	
 	public void update(T t); // [U]
 	
 	public boolean deleteById(int id); //[D] - most popular
 	
 	public boolean delete(T t); // [D] - other flavor of Delete
+	
+	/**
+	 * <p>
+	 * A method to return the total number of entries present in the
+	 * Table.
+	 * </p>
+	 * @return a long value indicating the count 
+	 */
+	public long getCount();
+	
+	/**
+	 * <p>
+	 * A method to fetch/retrieve all the available entries from the Database of type <tt>T</tt>
+	 * </p>
+	 * @return an instance of <tt>java.util.List</tt> containing all the entries.
+	 */
+	public List<T> getAll();
 
 }

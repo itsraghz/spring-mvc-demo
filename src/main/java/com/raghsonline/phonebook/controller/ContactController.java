@@ -114,9 +114,7 @@ public class ContactController
 		logger.info("addContact() invoked");
 		
 		/* Validation on the Duplicate contact */
-
-		
-		if(result.hasErrors())
+		if(result.hasErrors()) 
 		{
 			logger.error("Errors while binding the data values");
 			

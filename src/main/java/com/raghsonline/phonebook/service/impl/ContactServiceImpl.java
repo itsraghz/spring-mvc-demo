@@ -93,7 +93,8 @@ public class ContactServiceImpl implements ContactService
 	@Override
 	public List<Contact> getAllContacts() 
 	{
-		return contactList;
+		//return contactList;
+		return contactDAO.getAll();
 	}
 
 	@Override
@@ -150,20 +151,29 @@ public class ContactServiceImpl implements ContactService
 	 */
 	public boolean isContactDuplicate(Contact contactParam)
 	{
-		logger.info("isContactDuplicate() invoked");
+		logger.info("isContactDuplicate() invoked, contactParam=" + contactParam);
 		
 		boolean isDuplicate = false;
 		
-		for (Contact contact : contactList) 
+		/* ------------------------------------------------------------------ */
+		/** Old Logic - for using the hard coded list in Service Layer itself */
+		/* ------------------------------------------------------------------ */
+		/*for (Contact contact : contactList) 
 		{
-			/* Logic: TFor now we will verify the Contact No alone */
+			// Logic: For now we will verify the Contact No alone 
 			if(contact.getContactNo().equals(contactParam.getContactNo())) 
 			{
 				logger.error("Contact No already present in the list!");
 				isDuplicate = true;
 				break;
 			}
-		}
+		}*/
+		
+		/* ------------------------------------------------------------------ */
+		/* New Logic with SpringJDBC  using jdbcTemplat in ContactDAO		  */
+		/* ------------------------------------------------------------------ */
+		Optional<Contact> optionalContact = contactDAO.getByContactNo(contactParam.getContactNo());
+		isDuplicate = optionalContact.isPresent();
 		
 		logger.info("isDuplicate ? " + isDuplicate);
 		

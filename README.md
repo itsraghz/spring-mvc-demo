@@ -180,7 +180,16 @@ We use Spring Framework V 4.3.30, and hence we refer this (link)[https://docs.sp
 * This Datasource bean should be injected to the `Service` layers.	
 * JDBCTemplate method - `execute` or `queryXXx`
 * Implementation of the `RowMapper` interface to map the data on a per-row basis, by implementing the `mapRow() method declared in the interface.
-* Before executing the Test class, ensure that we have the actual Table available in the Database. :) 
+* Before executing the Test class, ensure that we have the actual Database and Table available in the Database. :) 
+* Add the DB specific JDBC connector in the `pom.xml`. Ex, *MySQL JDBC Connector* for the MySQL Database
+	```xml
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.29</version>
+		</dependency>
+	```
 
 ## What will be the data flow in the Application involving Spring JDBC ?
 
@@ -204,3 +213,48 @@ Typically in a Test class, we may NOT have the Controller available. In that cas
 direclty invoke the Service/Repository (depends on what you configured in the Application) and invoke the flow.
 
 > *Note*: Whenever we say Service/ Repository for injecting the dependencies, we really speak about the Implementation class at the respective layer, and certainly NOT the Interface.
+
+## Spring JDBC - Use Cases
+
+### C (Create) Contact 
+
+* Test Class
+* Service
+* Repository
+* AppConfig
+	* jdbcTemplate
+	* DataSource
+* DI (Dependency Injection)
+	- TestContactDAO - we injected ContactService (Reference Type/Interface)
+	- ContactServiceImpl - we injected DAO<Contact> (Reference Type / Interface)
+	- ContactDAO (Implementation Class) - we injected JdbcTemplate (which indeed has got the DataSource Reference
+
+* Accomplishments
+	* We are able to create a new entry in Contact Table successfully
+	
+* Pending / Todo
+	* The validations - Boundary checks and also the Business Validations
+	* Boundary Validations - min/max size, not null etc., 
+	* Business Exceptions - Duplicate Contact 
+		- We do have a method `isContactDuplicate()` in the `ContactServiceImpl` class, but it operates on the static hardcoded list of data - `contactList`
+		- Solution 
+			- #1. We can modify this list from hardcoded to Database. [getAll() method can return the List<Contact>]
+				- Challenge: What if the Database has got more than a Lakh records?
+			- #2. We can query from the Database Table with a WHERE clause to find a potential match for duplicate. If so we stop it
+				- ```sql
+					SELECT * FROM CONTACT WHERE CONTACTNO= ? -- the number supplied from the User.
+				   ```sql
+			- #3. The best bet is to add a UNIQUE constraint on the Contact Table and let the Database handle the scenario and throw a SQLException whenver an attempt is made to store a contact whose contact no is already present in the table. 
+		
+** Accomplishments 
+	- Added a new contract `getByContactNo(String contactNo)` in the `DAO<T>`.
+	- Added the implementation for the contract method in the `ContactDAO` class.
+	- Tested the same via a `@Test` method in `TestContactDAO` class.
+	- Modified the link in `ContactServiceImpl` class in the `isContactDuplicate()` method 
+		- Commented the code for the iteration of the hard coded list
+		- Added the new logic to invoke the `contactDAO.getByContactNo` and determine based on `optionalContact.isPresent()`.
+		
+## Pending Things
+
+* @Order does not work as expected in TestContactDAO. Not sure whether Spring Context being loaded in the class has some influence. Need to check.
+	
