@@ -46,7 +46,8 @@ public class Contact
 	@NotBlank(message = "Date of Birth should NOT be blank")
 	private String dob;
 	
-	@NotBlank(message = "Contact No. should NOT be blank")
+	@NotBlank(message = "Contact Number should NOT be blank")
+	@Size(min = 10, message = "Contact Number should have a min of 10 characters")
 	private String contactNo;
 	
 	@Email

@@ -1,5 +1,5 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@include file="inc/header.jsp"%>
+<%@include file="../inc/header.jsp"%>
 			<h1 style="color:#8B008B;">Phonebook - Add Contact</h1>
 			<form:form method="POST" commandName="contact">
 			  <div class="form-group row">
@@ -75,4 +75,4 @@
 				<!-- <button type="button" class="btn btn-primary">Add</button>	-->	
 				<input class="btn btn-primary" type="submit" value="Add"/>																	
 			</form:form>
-<%@include file="inc/footer.jsp" %>
+<%@include file="../inc/footer.jsp" %>

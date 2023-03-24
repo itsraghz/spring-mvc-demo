@@ -91,7 +91,7 @@ public class ContactServiceImpl implements ContactService
 		// All the boundary level validations are already performed at the Controller level */
 		if(isContactDuplicate(contact)) 
 		{
-			String errorMsg = "ContactNo already exists!";
+			String errorMsg = "Contact Number already exists!";
 			logger.error(errorMsg);
 			throw new BusinessException(errorMsg);
 		}
@@ -133,7 +133,7 @@ public class ContactServiceImpl implements ContactService
 			/* Logic: TFor now we will verify the Contact No alone */
 			if(contact.getContactNo().equals(contactParam.getContactNo())) 
 			{
-				logger.error("Contact No already present in the list!");
+				logger.error("Contact Number already present in the list!");
 				isDuplicate = true;
 				break;
 			}

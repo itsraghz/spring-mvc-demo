@@ -1,5 +1,5 @@
 <%@page import="com.raghsonline.phonebook.model.Contact"%>
-<%@include file="inc/header.jsp"%>
+<%@include file="../inc/header.jsp"%>
 			<h1 style="color:Blue;">Phonebook - View Contact</h1>
 			<%
 				Object contactObj = request.getAttribute("contact");
@@ -36,7 +36,7 @@
 			%>										
 					<table class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
-						<caption style="color:red;">View Contact</caption>
+						<caption style="color:grey;">View Contact</caption>
 						<thead style="color:#8B008B;">
 							<tr>	
 								<th>Field</th>
@@ -82,4 +82,4 @@
 				}
 			%>
 			<a href="contacts" class="btn btn-primary">View All Contacts</a>
-<%@include file="inc/footer.jsp" %>
+<%@include file="../inc/footer.jsp" %>

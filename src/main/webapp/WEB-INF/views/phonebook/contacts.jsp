@@ -1,8 +1,14 @@
 <%@page import ="java.util.List, com.raghsonline.phonebook.model.Contact, 
 		org.springframework.ui.ModelMap" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-<%@include file="inc/header.jsp"%>
-
+<%@include file="../inc/header.jsp"%>
+<div class="row">
+	<div class="col-12" align="center">
+		<div class="alert alert-success" role="alert">
+			<h4>Welcome <b>${name}!</b></h4>
+		</div>
+	</div>
+</div>
 <h1 style="color:Blue;">PhoneBook - Contacts</h1>
 		<%
 			Object messageObj = request.getAttribute("message");
@@ -45,7 +51,7 @@
 				%>
 			<table class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
-				<caption style="color:Red;">View All Contacts</caption>
+				<caption style="color:gery;">View All Contacts</caption>
 				<thead>
 					<tr style="color:#8B008B;">	
 						<th class="text-center">Id</th>
@@ -71,8 +77,8 @@
 							<td>${contact.notes}</td>
 							<td>${contact.tag}</td>
 							<td>
-								<a href="contact?id=${contact.id}" class="btn btn-info" role="button">View</a> &nbsp; | &nbsp;
-								<a href="update-contact?id=${contact.id}" class="btn btn-info" role="button">Update</a> &nbsp; | &nbsp;
+								<a href="contact?id=${contact.id}" class="btn btn-info" role="button">View</a>
+								<a href="update-contact?id=${contact.id}" class="btn btn-info" role="button">Update</a>
 								<a href="delete-contact?id=${contact.id}" class="btn btn-danger" role="button">Delete</a>
 							</td>
 						</tr>
@@ -93,4 +99,4 @@
 				<button type="submit" class="btn btn-primary">Add</button> -->
 				<a href="add-contact" class="btn btn-info" role="button">Add Contact</a> 
 			</div>
-<%@include file="inc/footer.jsp" %>
+<%@include file="../inc/footer.jsp" %>
