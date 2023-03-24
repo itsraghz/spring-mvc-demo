@@ -42,6 +42,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.3.30.RELEASE</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.29</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
 		<!--<dependency>
 			<groupId>org.apache.tomcat.maven</groupId>

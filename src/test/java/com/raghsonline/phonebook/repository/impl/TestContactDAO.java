@@ -1,8 +1,10 @@
 package com.raghsonline.phonebook.repository.impl;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.raghsonline.phonebook.config.AppConfig;
 import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
+import com.raghsonline.phonebook.repository.DAO;
 import com.raghsonline.phonebook.service.ContactService;
 
 public class TestContactDAO 
@@ -20,6 +23,8 @@ public class TestContactDAO
 	
 	//@Autowired
 	static ContactService contactService;
+	
+	static ContactDAO contactDAO;
 	
 	static AnnotationConfigApplicationContext context;
 	
@@ -33,8 +38,26 @@ public class TestContactDAO
 		context = new AnnotationConfigApplicationContext(AppConfig.class);
 		logger.info("Spring Context :: " + context);
 		
+		assertNotNull(context);
+		
 		contactService = context.getBean(ContactService.class);
 		logger.info("contactService :: " + contactService);
+		assertNotNull(contactService);
+		
+		/*DAO<Contact> dao = context.getBean(ContactDAO.class);
+		logger.info("dao :: " + dao);
+		assertNotNull(dao);
+		
+		contactDAO = (ContactDAO) dao;
+		contactDAO.cleanup();*/
+	}
+	
+	@AfterAll
+	public static void cleanup()
+	{
+		logger.info("cleanup() method invoked");
+		
+		//contactDAO.reset();
 	}
 	
 	/**
@@ -57,10 +80,10 @@ public class TestContactDAO
 	{
 		logger.info("createContact() invoked");
 		
-		Contact contact = new Contact(-1, "Spring", "2 way Data Binding", 
-				"2003-01-01", "1234567891", 
-				"databinding@springmvc.com", "Spring MVC DataBinding", 
-				"Java, Spring");
+		Contact contact = new Contact(-1, "Spring JDBC", "Unit Testing", 
+				"2003-01-01", "3691024685", 
+				"spring@jdbc.com", "Spring JDBC Unit Testing", 
+				"Java, Spring, JDBC");
 		
 		int newlyInsertedId = contactService.addContact(contact);
 		
