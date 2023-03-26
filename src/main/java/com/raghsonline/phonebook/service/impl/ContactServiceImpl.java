@@ -229,73 +229,69 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public void updateContact(Contact contact) throws BusinessException 
+	public int updateContact(Contact contact) throws BusinessException 
 	{
-		System.out.println("updateContact invoked!");
+		logger.debug("updateContact() invoked");
 		
-		/**
-		 * Because we use a hardcoded list of data now,
-		 * we can remove the existing object/item from the list matching with the Id, 
-		 * and then add it further into the same list.	
-		 */
-		Optional<Contact> optionalContact = getContactById(contact.getId());
+		logger.info("Contact Object received : " + contact);
 		
-		if(optionalContact.isEmpty())
+		/* It is time to do the validation on the duplicate check */
+		// All the boundary level validations are already performed at the Controller level */
+		
+		
+		Optional<Contact> optionalContactFromDB = contactDAO.getById(contact.getId());
+		
+		Contact contactFromDB = optionalContactFromDB.get();
+		
+		if((contact.getContactNo()).equals(contactFromDB.getContactNo()))
 		{
-			System.out.println("Contact is not available!");
-			return;
+			logger.info("Contact Number unchanged for the given id");
+		}
+		else
+		{
+			if(isContactDuplicate(contact)) 
+			{
+				String errorMsg = "ContactNo already exists!";
+				logger.error(errorMsg);
+				throw new BusinessException(errorMsg);
+			}
 		}
 		
-		System.out.println("contact matching : " + optionalContact.get());
 		
-		System.out.println("size of the contactList before removal : " + contactList.size());
-		contactList.remove(contact);
 		
-		System.out.println("size of the contactList after removal : " + contactList.size());
-		contactList.stream().forEach(System.out::println);
-		
+		logger.info("Contact object supplied with the actual counter : " + contact);
+
+		/** 
+		 * Here is what we adjust the links 
+		 * 
+		 * 1. Cut the link from Service to hardcoded list
+		 * 2. Add the new link (Service to Repository)
+		 * 
+		 */
 		//contactList.add(contact);
-		addContact(contact);
+		//return contact.getId();
 		
-		System.out.println("size of the contactList after addition : " + contactList.size());
-		contactList.stream().forEach(System.out::println);
+		int updatedId = contactDAO.update(contact);
+		logger.info("updatedId : " + updatedId);
+		return updatedId;
+
 	}
 
 	@Override
-	public boolean deleteContact(int id)
+	public int deleteContact(int id)
 	{
 		logger.info("deleteContact() invoked with id - " + id);
 		
-		/* Trouble: You pass it as ID but the JDK/JVM treats it for Index */
-		//Contact contactRemoved = contactList.remove(id);
 		
-		/* 
-		 * Solution : We can solve it in two different ways
-		 * 
-		 *  1. Using the remove(Object o) method and pass the actual Object instance for deletion
-		 *  	than remove(int index).
-		 *  	Note:  remove(int index) returns the Object which was present before removal
-		 *  		   remove(Object o) returns a boolean status for the removal operation.
-		 *  
-		 *  2. TODO: Assignment (21 Mar 2023)Iterate the list and find out the index of the matching object, 
-		 *  	then pass it to the remove(int index) method.
-		 * 
-		 */
-
-		//Contact contactRemoved = null;
-		boolean removalStatus = false;
-		Contact contactToBeDeleted = null;
+		int rowsDeleted = 0;
 		
 		Optional<Contact> optionalContact = getContactById(id);
 		
 		if(optionalContact.isPresent()) {
-			contactToBeDeleted = optionalContact.get();
-			removalStatus = contactList.remove(contactToBeDeleted);
+			rowsDeleted = contactDAO.deleteById(id);
 		}
 		
-		logger.info("removalStatus :: " + removalStatus);
-		
-		return removalStatus;
+		return rowsDeleted;
 	}
 
 }

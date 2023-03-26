@@ -236,4 +236,24 @@ public class TestContactDAO
 		}
 	}
 	
+	@Test
+	@DisplayName("updateContact should update the contact")
+	@Order(7)
+	public void updateContact()
+	{
+		logger.info("updateContact() invoked");
+		
+		Optional<Contact> optionalContact = contactDAO.getById(1);
+		
+		if(optionalContact.isPresent())
+		{
+			Contact contact = optionalContact.get();
+			contact.setNotes("Notes Updated from JUnit");
+			int rowsUpdated = contactDAO.update(contact);
+			logger.info("Rows updated " +rowsUpdated);
+			assertTrue(rowsUpdated>0);
+		}
+		
+	}
+	
 }

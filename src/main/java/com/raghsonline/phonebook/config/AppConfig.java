@@ -37,8 +37,8 @@ public class AppConfig
 		
 		//For the time being, to execute the 1st level of Test Case!
 		String url = "jdbc:mysql://localhost:3306/Phonebook";
-		String username = "raghs";
-		String password = "RaghsMySQL12#";
+		String username = "root";
+		String password = "root";
 		
 		DataSource dataSource = new DriverManagerDataSource(url, username, password);
 		logger.info("dataSource : " + dataSource);

@@ -53,9 +53,9 @@ public interface DAO<T>
 	 */
 	public Optional<T> getByContactNo(String contactNo); // [R]
 	
-	public void update(T t); // [U]
+	public int update(T t); // [U]
 	
-	public boolean deleteById(int id); //[D] - most popular
+	public int deleteById(int id); //[D] - most popular
 	
 	public boolean delete(T t); // [D] - other flavor of Delete
 	

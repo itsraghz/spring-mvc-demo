@@ -52,7 +52,7 @@ public interface ContactService
 	 * @param contact the contact to be updated
 	 * @throws BusinessException in case of any business validation failures
 	 */
-	public void updateContact(Contact contact) throws BusinessException;
+	public int updateContact(Contact contact) throws BusinessException;
 	
 	/**
 	 * <p>
@@ -61,5 +61,5 @@ public interface ContactService
 	 * @param id the sequence number (Id) of the Contact to be deleted
 	 * @return boolean true if there was a successful deletion, false otherwise.
 	 */
-	public boolean deleteContact(int id);
+	public int deleteContact(int id);
 }

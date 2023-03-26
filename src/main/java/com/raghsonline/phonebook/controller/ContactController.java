@@ -279,7 +279,7 @@ public class ContactController
 		}
 		
 		/* We reuse the same addContact.jsp page here */
-		return "phonebook/addContact";
+		return "phonebook/updateContact";
 	}
 
 	@RequestMapping(value = "update-contact", method=RequestMethod.POST)
@@ -289,17 +289,18 @@ public class ContactController
 		
 		if(result.hasErrors())
 		{
-			return "phonebook/addContact"; 
+			return "phonebook/updateContact"; 
 		}
 		
+		int updatedId;
 		try {
-			contactService.updateContact(contact);
+			updatedId = contactService.updateContact(contact);
 		} catch (BusinessException businessException) {
 			handleBusinessException(contact, result, businessException);
-			return "phonebook/addContact";
+			return "phonebook/updateContact";
 		}
 		
-		
+		logger.info("ID of the updated Contact Object : " + updatedId);
 		model.clear();
 		model.addAttribute("contact", contact);
 		
@@ -308,7 +309,10 @@ public class ContactController
 		 * NOT using a redirection to a view (redirect:/), rather we are 
 		 * returning the logical view name as a String value. 
 		 */
-		model.addAttribute("message", "Contact updated successfully!");
+		if(updatedId>0)
+		{
+			model.addAttribute("message", "Contact updated successfully!");
+		}
 	
 		return "phonebook/viewContact";
 	}
@@ -370,8 +374,14 @@ public class ContactController
 		
 		logger.info("Parameter Id :  " + id);
 		
-		boolean status = contactService.deleteContact(id);
+		int rowsDeleted = contactService.deleteContact(id);
 		
+		boolean status = false;
+		
+		if(rowsDeleted>0)
+		{
+			status = true;
+		}
 		String message = "Contact was " + (status ? "" : "NOT") + " successfully deleted";
 		
 		/* if(status) {
