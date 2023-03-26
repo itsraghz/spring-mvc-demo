@@ -1,20 +1,6 @@
 <%@page import="com.raghsonline.phonebook.model.Contact"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-  
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Phonebook | Contact - View</title>
-		<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-	</head>
-	<body>
-		<div id="contacts" class="container">
-			<h1>Phonebook - View Contact</h1>
-			<div id="greeting">
-				Welcome, <b>${name}</b>
-			</div>			
+<%@include file="../inc/header.jsp"%>
+			<h1 style="color:Blue;">Phonebook - View Contact</h1>
 			<%
 				Object contactObj = request.getAttribute("contact");
 				Object messageObj = request.getAttribute("message");
@@ -37,23 +23,27 @@
 					
 					if(null!=message) 
 					{
-			%>
-						<span style="background-color: teal; color: white;">
-							${message}
-						</span>
+			%>	
+						<div class="row">
+							<div class="col-12" align="center">
+								<div class="alert alert-success" role="alert">
+									<%=message%>
+								</div>
+							</div>
+						</div>
 			<% 	
 					}
 			%>										
 					<table class="table table-striped table-hover table-bordered 
 						table-responsive caption-top">
-						<caption>View Contact</caption>
-						<thead>
+						<caption style="color:grey;">View Contact</caption>
+						<thead style="color:#8B008B;">
 							<tr>	
 								<th>Field</th>
 								<th>Value</th>
 							</tr>
 						</thead>
-						<tbody class="table-group-divider">
+						<tbody class="table-group-divider" style="color:#0202ff;">
 							<tr>
 								<td>Id</td>
 								<td>${contact.id}</td>
@@ -92,8 +82,4 @@
 				}
 			%>
 			<a href="contacts" class="btn btn-primary">View All Contacts</a>
-		</div>
-		<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-		<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	</body>
-</html>
+<%@include file="../inc/footer.jsp" %>

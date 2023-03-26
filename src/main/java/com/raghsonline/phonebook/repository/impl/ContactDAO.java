@@ -363,14 +363,34 @@ public class ContactDAO implements DAO<Contact>
 	}
 
 	@Override
-	public void update(Contact t) {
-		// TODO Auto-generated method stub
+	public long update(Contact t)
+	{
+		logger.info("updateContact Invoked() - " + t);
+		
+		String sql = "UPDATE CONTACT SET FirstName =?,LastName =?,DOB =?,ContactNo=?,EMAIL=?,NOTES=?,TAG=?"
+				   + "WHERE Id = ?";
+		logger.info("SQL Query :" + sql);
+		
+
+		long rowsAffected = jdbcTemplate.update(sql, 
+				t.getFirstName(), t.getLastName(), t.getDob(), 
+				t.getContactNo(), t.getEmail(), t.getNotes(), t.getTag(),t.getId());
+		
+		logger.info("rowsAffected : " + rowsAffected);
+		
+		return rowsAffected;
 	}
 
 	@Override
-	public boolean deleteById(int id) {
-		// TODO Auto-generated method stub
-		return false;
+	public long deleteById(int id) 
+	{
+		logger.info("deleteById - Invoked");
+		String sql = "DELETE FROM CONTACT WHERE Id = ?";
+		logger.info("SQL Query :" + sql);
+		
+		long rowsAffected = jdbcTemplate.update(sql,id);
+		
+		return rowsAffected;
 	}
 
 	@Override

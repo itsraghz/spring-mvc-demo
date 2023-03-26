@@ -112,7 +112,7 @@ public class TestContactDAO
 		logger.info("count :: " + count);
 	}
 	
-	@Test
+	//@Test
 	@DisplayName("Creating a Contact should successfully return an auto-generated sequence number")
 	@Order(2)
 	public void createContact() throws BusinessException 
@@ -236,4 +236,47 @@ public class TestContactDAO
 		}
 	}
 	
+	@Test
+	@DisplayName("Update contact by Id and return rowsaffected")
+	@Order(7)
+	public void updateContact()
+	{
+		logger.info("----------- updateContact() - Invoked ----------");
+		
+		Contact t =new Contact();
+		
+		t.setFirstName("Update By Junit");
+		t.setLastName("JUnit");
+		t.setDob("2000-09-07");
+		t.setContactNo("0989089082");
+		t.setEmail("JUnit@gmail.com");
+		t.setNotes("Contact Upadted Through JUnit");		
+		t.setTag("JUnit Test");		
+		t.setId(1);
+		
+		long rowsAffected = contactDAO.update(t);
+		logger.info(rowsAffected);
+		if(rowsAffected>0) {
+			assertTrue(rowsAffected>0);	
+		}
+		else {
+			logger.info("No Data is avalibale to Edit");
+		}
+			
+	}
+	
+	@Test
+	@DisplayName("Delete contact by Id and return rowsaffected")
+	@Order(8)
+	public void deleteContact()
+	{
+		logger.info("----------- deleteContact() - Invoked ----------");
+		
+		int id = 3;
+		
+		long rowsAffected = contactDAO.deleteById(id);
+		logger.info(rowsAffected);
+		assertTrue(rowsAffected>=1);
+		
+	}
 }

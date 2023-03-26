@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 //Through @Controller we indicate Spring that this class
@@ -26,6 +27,13 @@ public class LoginController
 	
 	@Autowired //this will pick up an instance of LoginService and assign it
 	LoginService service;
+	
+	@RequestMapping(value = "/hello", method = RequestMethod.GET)
+	@ResponseBody
+	public String sayHello()
+	{
+		return "Hello Spring MVC";
+	}
 	
 	/*
 	 * A typical method equivalent to doGet() in a Servlet class.
@@ -103,15 +111,21 @@ public class LoginController
 		
 		if(isValidUser)
 		{
-			/* We would like to keep this 'name' key available in Session */
-			/* We will add this in to the different annotation called SessionAttributes at the Class Level */
 			model.addAttribute("name", userName);
 			model.addAttribute("lastSuccessfulLogin", new Date());
-			return "welcome";
+			return "../../index";
 		} else {
 			model.addAttribute("errorMessage", "Invalid Credentials");
 			return "login";
 		}
 		
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(Model model)
+	{
+		System.out.println("LogoutController Invoked...!");
+		model.addAttribute("message", "You have been logged out from the System");
+		return "login";
 	}
 }

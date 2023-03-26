@@ -370,9 +370,9 @@ public class ContactController
 		
 		logger.info("Parameter Id :  " + id);
 		
-		boolean status = contactService.deleteContact(id);
+		long status = contactService.deleteContact(id);
 		
-		String message = "Contact was " + (status ? "" : "NOT") + " successfully deleted";
+		String message = "Contact was " + ((status >0)? "" : "NOT") + " successfully deleted";
 		
 		/* if(status) {
 			message = "Contact was successfully deleted";

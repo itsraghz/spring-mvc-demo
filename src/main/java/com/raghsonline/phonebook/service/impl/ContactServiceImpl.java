@@ -108,7 +108,7 @@ public class ContactServiceImpl implements ContactService
 		// All the boundary level validations are already performed at the Controller level */
 		if(isContactDuplicate(contact)) 
 		{
-			String errorMsg = "ContactNo already exists!";
+			String errorMsg = "Contact Number already exists!";
 			logger.error(errorMsg);
 			throw new BusinessException(errorMsg);
 		}
@@ -229,21 +229,27 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public void updateContact(Contact contact) throws BusinessException 
+	public long updateContact(Contact t) throws BusinessException 
 	{
 		System.out.println("updateContact invoked!");
+		
+		long rowsAffected = contactDAO.update(t);
+		
+		logger.info("rowsAffected :" +rowsAffected );
+		
+		return rowsAffected;
 		
 		/**
 		 * Because we use a hardcoded list of data now,
 		 * we can remove the existing object/item from the list matching with the Id, 
 		 * and then add it further into the same list.	
 		 */
-		Optional<Contact> optionalContact = getContactById(contact.getId());
+		/*Optional<Contact> optionalContact = getContactById(contact.getId());
 		
 		if(optionalContact.isEmpty())
 		{
 			System.out.println("Contact is not available!");
-			return;
+			return null;
 		}
 		
 		System.out.println("contact matching : " + optionalContact.get());
@@ -258,11 +264,11 @@ public class ContactServiceImpl implements ContactService
 		addContact(contact);
 		
 		System.out.println("size of the contactList after addition : " + contactList.size());
-		contactList.stream().forEach(System.out::println);
+		contactList.stream().forEach(System.out::println);*/
 	}
 
 	@Override
-	public boolean deleteContact(int id)
+	public long deleteContact(int id)
 	{
 		logger.info("deleteContact() invoked with id - " + id);
 		
@@ -283,19 +289,21 @@ public class ContactServiceImpl implements ContactService
 		 */
 
 		//Contact contactRemoved = null;
-		boolean removalStatus = false;
-		Contact contactToBeDeleted = null;
+		//boolean removalStatus = false;
+		//Contact contactToBeDeleted = null;
+		long rowsAffected = 0;
 		
 		Optional<Contact> optionalContact = getContactById(id);
 		
 		if(optionalContact.isPresent()) {
-			contactToBeDeleted = optionalContact.get();
-			removalStatus = contactList.remove(contactToBeDeleted);
+			/*contactToBeDeleted = optionalContact.get();
+			removalStatus = contactList.remove(contactToBeDeleted);*/
+			rowsAffected = contactDAO.deleteById(id);
 		}
 		
-		logger.info("removalStatus :: " + removalStatus);
+		logger.info("rowsAffected :: " + rowsAffected);
 		
-		return removalStatus;
+		return rowsAffected;
 	}
 
 }
