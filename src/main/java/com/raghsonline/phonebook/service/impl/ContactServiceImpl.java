@@ -98,7 +98,7 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public int addContact(Contact contact) throws BusinessException 
+	public long addContact(Contact contact) throws BusinessException 
 	{
 		logger.debug("addContact() invoked");
 		
@@ -136,9 +136,9 @@ public class ContactServiceImpl implements ContactService
 		//contactList.add(contact);
 		//return contact.getId();
 		
-		int newlyInseredId = contactDAO.create(contact);
-		logger.info("newlyInseredId : " + newlyInseredId);
-		return newlyInseredId;
+		long newlyInsertedId = contactDAO.create(contact);
+		logger.info("newlyInseredId : " + newlyInsertedId);
+		return newlyInsertedId;
 	}
 	
 	/**
@@ -213,14 +213,17 @@ public class ContactServiceImpl implements ContactService
 		//return contactList.get(id);
 		
 		/* The recommended way is to loop through the list and find for a match */
-		for (Contact contact : contactList) 
+		/*for (Contact contact : contactList) 
 		{
 			if(contact.getId()==id)
 			{
 				optionalContact = Optional.of(contact);
 				break;
 			}
-		}
+		}*/
+		
+		optionalContact = contactDAO.getById(id);
+		logger.info("optionalContact :: " + optionalContact);
 		
 		return optionalContact;
 	}

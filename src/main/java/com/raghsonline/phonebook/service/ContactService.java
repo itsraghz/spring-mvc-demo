@@ -34,7 +34,7 @@ public interface ContactService
 	 * 			of the newly added contact
 	 * @throws BusinessException in case of any business validation failures
 	 */
-	public int addContact(Contact contact) throws BusinessException;
+	public long addContact(Contact contact) throws BusinessException;
 	
 	/**
 	 * <p>

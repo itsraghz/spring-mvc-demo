@@ -142,7 +142,7 @@ public class ContactController
 		
 		logger.info("Contact obj prepared from the REQ parameters via Spring MVC : " + contact);
 		
-		int id = -1;
+		long id = -1;
 		
 		try {
 			id = contactService.addContact(contact);
@@ -174,7 +174,7 @@ public class ContactController
 		 * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/support/RedirectAttributes.html
 		 */
 		//redirectAttrs.addAttribute("id", contact.getId()).addFlashAttribute("message", "Contact added successfully!");
-		redirectAttrs.addFlashAttribute("message", "Contact added successfully!");
+		redirectAttrs.addFlashAttribute("message", "Contact added successfully with the ID="+id);
 		
 		return "redirect:/contacts";
 	}
@@ -211,7 +211,7 @@ public class ContactController
 		
 		logger.info("Contact Object prepared from the request parameters : " + contact);
 		
-		int id = -1;
+		long id = -1;
 		
 		try {
 			id = contactService.addContact(contact);

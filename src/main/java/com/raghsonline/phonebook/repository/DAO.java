@@ -27,9 +27,9 @@ public interface DAO<T>
 	 * </p>
 	 * 
 	 * @param t the type of the object , instance of type <tt>T</tt>
-	 * @return an integer representing the newly created sequence number (auto-generated)
+	 * @return a long value representing the newly created sequence number (auto-generated)
 	 */
-	public int create(T t); // [C]
+	public long create(T t); // [C]
 	
 	/**
 	 * <p>

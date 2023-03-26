@@ -106,7 +106,7 @@ public class TestContactServiceImpl
 		Contact contact = new Contact(0, "Test", "User", "2000-08-08", "12345567890", 
 				"test@test.com", "Test Notes", "Test Tag");
 		
-		int seqNo = contactService.addContact(contact);
+		long seqNo = contactService.addContact(contact);
 		
 		assertNotNull(seqNo);
 		

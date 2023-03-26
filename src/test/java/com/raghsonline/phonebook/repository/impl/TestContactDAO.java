@@ -125,16 +125,16 @@ public class TestContactDAO
 				"Java, Spring, JDBC");
 		
 		Contact contact2 = new Contact(0, "Spring JDBC2", "Unit Testing", 
-				"2003-01-02", "22222222222", 
+				"2003-01-02", "2222222222", 
 				"spring@jdbc2.com", "Spring JDBC Unit Testing", 
 				"Java, Spring, JDBC2");
 		
 		Contact contact3 = new Contact(0, "Spring JDBC3", "Unit Testing", 
-				"2003-01-03", "33333333333", 
+				"2003-01-03", "3333333333", 
 				"spring@jdbc3.com", "Spring JDBC Unit Testing", 
 				"Java, Spring, JDBC3");
 		
-		int newlyInsertedId = addContact(contact);
+		long newlyInsertedId = addContact(contact);
 		
 		assertTrue(newlyInsertedId>0);
 		
@@ -147,9 +147,9 @@ public class TestContactDAO
 		assertTrue(newlyInsertedId>0);
 	}
 
-	private int addContact(Contact contact) throws BusinessException 
+	private long addContact(Contact contact) throws BusinessException 
 	{
-		int newlyInsertedId = contactService.addContact(contact);
+		long newlyInsertedId = contactService.addContact(contact);
 		
 		logger.info("newlyInsertedId : " + newlyInsertedId);
 		return newlyInsertedId;
@@ -188,7 +188,7 @@ public class TestContactDAO
 		
 		
 		Exception thrown = Assertions.assertThrows(BusinessException.class, () -> {
-			int newlyInsertedIdLocal = contactService.addContact(contact);
+			long newlyInsertedIdLocal = contactService.addContact(contact);
 			logger.info("newlyInsertedId : " + newlyInsertedIdLocal);
 			assertTrue(newlyInsertedIdLocal>0);
 		});
@@ -212,4 +212,28 @@ public class TestContactDAO
 		
 		contactList.stream().forEach(logger::info);
 	}
+	
+	@Test
+	@DisplayName("Get Contact by Id should return the matching Contact instance")
+	@Order(6)
+	public void getContactById()
+	{
+		logger.info("getContactById() invoked");
+		
+		Optional<Contact> optionalContact = contactDAO.getById(1);
+		
+		logger.info("optionalContact :: " + optionalContact);
+		
+		/* 
+		 * For an Optional value, the assertNotNull does NOT really add a weightage,
+		 * because mostly we would be returning an Optional.empty().
+		 */
+		assertNotNull(optionalContact);
+		
+		if(optionalContact.isPresent())
+		{
+			assertNotNull(optionalContact.get());
+		}
+	}
+	
 }
