@@ -71,6 +71,14 @@ public class ContactController
 		return "phonebook/addContact";
 	}
 	
+	@RequestMapping(value = "home", method = RequestMethod.GET)
+	public String showAddHomePage()
+	{
+		logger.info("showAddHomePage() invoked...");
+		
+		return "welcome";
+	}
+	
 	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
 	public String getAllContacts(ModelMap model)
 	{
