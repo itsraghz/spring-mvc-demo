@@ -200,7 +200,7 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public Optional<Contact> getContactById(int id) 
+	public Optional<Contact> getContactById(long id) 
 	{	
 		logger.info("getContactById() invoked with id - " + id);
 		
@@ -246,9 +246,9 @@ public class ContactServiceImpl implements ContactService
 			return;
 		}
 		
-		System.out.println("contact matching : " + optionalContact.get());
+		logger.info("contact matching : " + optionalContact.get());
 		
-		System.out.println("size of the contactList before removal : " + contactList.size());
+		/*System.out.println("size of the contactList before removal : " + contactList.size());
 		contactList.remove(contact);
 		
 		System.out.println("size of the contactList after removal : " + contactList.size());
@@ -258,11 +258,15 @@ public class ContactServiceImpl implements ContactService
 		addContact(contact);
 		
 		System.out.println("size of the contactList after addition : " + contactList.size());
-		contactList.stream().forEach(System.out::println);
+		contactList.stream().forEach(System.out::println);*/
+		
+		contactDAO.update(contact);
+		
+		logger.info("An attempt to update the contact was completed!");
 	}
 
 	@Override
-	public boolean deleteContact(int id)
+	public boolean deleteContact(long id)
 	{
 		logger.info("deleteContact() invoked with id - " + id);
 		
@@ -283,15 +287,18 @@ public class ContactServiceImpl implements ContactService
 		 */
 
 		//Contact contactRemoved = null;
+		
 		boolean removalStatus = false;
-		Contact contactToBeDeleted = null;
+		/*Contact contactToBeDeleted = null;
 		
 		Optional<Contact> optionalContact = getContactById(id);
 		
 		if(optionalContact.isPresent()) {
 			contactToBeDeleted = optionalContact.get();
 			removalStatus = contactList.remove(contactToBeDeleted);
-		}
+		}*/
+		
+		removalStatus = contactDAO.deleteById(id);
 		
 		logger.info("removalStatus :: " + removalStatus);
 		

@@ -261,11 +261,6 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 
 * getById() completed linked with Controller and Test Method.
 
-
-## Pending Things
-
-* @Order does not work as expected in TestContactDAO. Not sure whether Spring Context being loaded in the class has some influence. Need to check.
-
 ### Assignment 
 
 * Pending Use cases using Spring JDBC
@@ -273,6 +268,49 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 	* Delete 
 * check into the Github Repo as always. Will create a new branch for this `Assignment2-SpringJDBC-26Mar23-<Name>`
 * Raghavan should 
-	* rectify the file names of Snagit Images which was preventing the git pull due to the very long files names and the team uses Windows.
-	* create a new branch for each for this new Assignment - Assignment 2.
+	* [DONE] rectify the file names of Snagit Images which was preventing the git pull due to the very long files names and the team uses Windows.
+	* [DONE] create a new branch for each for this new Assignment - Assignment 2.
 	
+## Pending Things
+
+* @Order does not work as expected in TestContactDAO. Not sure whether Spring Context being loaded in the class has some influence. Need to check.
+* [DONE] Properties for DataSource to be injected from the properties (`jdbc.properties`) file
+	- Flavor #1 - Config class with `@Bean` method with `@PropertySource` and `@Autowired` `Environment` class, and use `env.getProperty(key)`. 
+	- Flavor #2 - define a `<bean>` tag in the `registratiion-servlet.xml` along with the `<context:property-placeholder location='classpath:/jdbc.properties'/>`.
+	
+	*pom.xml*
+	```xml
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.3.30.RELEASE</version>
+		</dependency>
+	```
+	*registration-servlet.xml*
+	```xml
+	    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+	        <property name="url" value="${jdbc.url}"/>
+	        <property name="username" value="${jdbc.username}"/>
+	        <property name="password" value="${jdbc.password}"/>
+	    </bean>
+    
+    		<context:property-placeholder location="classpath:/jdbc.properties"/>
+	```
+	> *Note*: If theer is a bean declared in the XML file that will take the preference than the one declared in the Java class via `@Bean` annotation.
+* Assignment #3 - Login using Spring JDBC and Spring MVC to have the login credentials stored and verified from the Database table than the one hardcoded.
+	* I will create a separate github repo name for this assignment.
+* Spring MVC Rest
+	* Dependency on Jackson API
+	```xml
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+	```
+* `JavaFaker` to have the random data added.
+	* Search Capability to make it more meaningful
+* Spring Security
+* I18N (Internationlization) capabilities
+

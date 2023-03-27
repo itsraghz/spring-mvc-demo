@@ -43,7 +43,7 @@ public interface ContactService
 	 * @param id the id attribute of the Contact
 	 * @return an Optional contact if exists matching with the id.
 	 */
-	public Optional<Contact> getContactById(int id);
+	public Optional<Contact> getContactById(long id);
 	
 	/**
 	 * <p>
@@ -61,5 +61,5 @@ public interface ContactService
 	 * @param id the sequence number (Id) of the Contact to be deleted
 	 * @return boolean true if there was a successful deletion, false otherwise.
 	 */
-	public boolean deleteContact(int id);
+	public boolean deleteContact(long id);
 }

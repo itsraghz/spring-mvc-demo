@@ -40,7 +40,7 @@ public interface DAO<T>
 	 * @param id the id of the row for finding a match
 	 * @return the matching domain object if available, empty otherwise.
 	 */
-	public Optional<T> getById(int id); // [R] (get == getById, ID is the PK)
+	public Optional<T> getById(long id); // [R] (get == getById, ID is the PK)
 	
 	/**
 	 * <p>
@@ -53,11 +53,22 @@ public interface DAO<T>
 	 */
 	public Optional<T> getByContactNo(String contactNo); // [R]
 	
+	/**
+	 * <p>
+	 * A method to update a Contact object.
+	 * </p>
+	 * @param t the contact object to be updated
+	 */
 	public void update(T t); // [U]
 	
-	public boolean deleteById(int id); //[D] - most popular
-	
-	public boolean delete(T t); // [D] - other flavor of Delete
+	/**
+	 * <p>
+	 * A method to delete a <t>Contact</tt> instance by its Id (Primary Key).
+	 * </p>
+	 * @param id the id of the contact to be deleted
+	 * @return a true/false indicating the status of the record being deleted
+	 */
+	public boolean deleteById(long id); //[D] - most popular
 	
 	/**
 	 * <p>

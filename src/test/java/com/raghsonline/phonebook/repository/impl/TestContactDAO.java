@@ -236,4 +236,72 @@ public class TestContactDAO
 		}
 	}
 	
+	@Test
+	@DisplayName("Update Contact by Id should make the necessary changes in the Table")
+	@Order(7)
+	public void updateContact()
+	{
+		logger.info("updateContact() invoked");
+		
+		Optional<Contact> optionalContact = contactDAO.getById(1);
+		
+		logger.info("optionalContact :: " + optionalContact);
+		
+		if(optionalContact.isEmpty())
+		{
+			String errorMsg = "Empty object, can't update!";
+			logger.error(errorMsg);
+			Assertions.fail(errorMsg);
+		}
+		
+		Contact contact = optionalContact.get();
+		assertNotNull(contact);
+		
+		contact.setNotes(contact.getNotes() + " #Updated-Test");
+		contact.setTag(contact.getTag() + " #TestContactDAO");
+	
+		logger.info("Contact object to be updated :: " + contact);
+		contactDAO.update(contact);
+		logger.info("An attempt to update the contact object is completed");
+	}
+	
+	@Test
+	@DisplayName("Delete Contact by Id should delete the corresponding row in the Table")
+	@Order(8)
+	public void deleteContact() throws BusinessException
+	{
+		logger.info("deleteContact() invoked");
+		
+		Contact contactToInsert = new Contact(-1, "Spring JDBC", "Unit Testing", 
+				"2003-01-01", "9999199999", 
+				"spring@jdbc.com", "Spring JDBC Delete Test", 
+				"Java, Spring, JDBC, Delete");
+		
+		long id = addContact(contactToInsert);
+		logger.info("newly inserted id : " + id);
+		
+		/* Just to simulate the test case to fail */
+		id += 100;
+		Optional<Contact> optionalContact = contactDAO.getById(id);
+		
+		logger.info("optionalContact :: " + optionalContact);
+		
+		if(optionalContact.isEmpty())
+		{
+			String errorMsg = "Empty object, can't update!";
+			logger.error(errorMsg);
+			Assertions.fail(errorMsg);
+		}
+		
+		Contact contactToDelete = optionalContact.get();
+		assertNotNull(contactToDelete);
+		assertTrue(contactToDelete.getId() > 0);
+		
+		logger.info("contactToDelete :: " + contactToDelete);
+		
+		boolean deletionStatus = contactDAO.deleteById(id);
+		logger.info("An attempt to delete the contact object is completed");
+		logger.info("deletionStatus :: " + deletionStatus);
+	}
+	
 }

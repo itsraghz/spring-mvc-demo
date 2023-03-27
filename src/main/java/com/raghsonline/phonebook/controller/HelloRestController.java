@@ -1,10 +1,7 @@
 package com.raghsonline.phonebook.controller;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;

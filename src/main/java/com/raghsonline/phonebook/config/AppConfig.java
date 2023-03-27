@@ -30,10 +30,18 @@ public class AppConfig
 		logger.info("Autowired Environment : " + env);
 	}
 	
-	@Bean
-	public DataSource dataSource()
+	/**
+	 * <p>
+	 * A Bean instantiated for the <tt>java.sql.DataSource</tt>, loaded
+	 * with the properties hardcoded in the Java class/method.  
+	 * </p>
+	 * 
+	 * @return an instance of the <tt>java.sql.DataSource</tt> filled with the hardcoded properties
+	 */
+	//@Bean
+	public DataSource dataSource1()
 	{
-		logger.info("dataSource() Bean has been invoked");
+		logger.info("dataSource1() Bean has been invoked");
 		
 		//For the time being, to execute the 1st level of Test Case!
 		String url = "jdbc:mysql://localhost:3306/Phonebook";
@@ -46,10 +54,18 @@ public class AppConfig
 		return dataSource; 
 	}
 	
-	//@Bean
-	public DataSource dataSource1()
+	/**
+	 * <p>
+	 * A Bean instantiated for the <tt>java.sql.DataSource</tt>, loaded
+	 * with the properties configured in the properties file.  
+	 * </p>
+	 * 
+	 * @return an instance of the <tt>java.sql.DataSource</tt> filled with the configured properties
+	 */
+	@Bean
+	public DataSource dataSource()
 	{
-		logger.info("dataSource1() Bean has been invoked");
+		logger.info("dataSource() Bean has been invoked");
 		
 		//For the time being, to execute the 1st level of Test Case!
 		String url = env.getProperty("jdbc.url");
