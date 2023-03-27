@@ -37,7 +37,7 @@
 				<fieldset id="dobField" name="dobField">
 					<form:label path="dob" for="dob">Date of Birth : </form:label>
 					<form:input path="dob" type="text" id="dob" name="dob" 
-						size="10" required="required"/>	
+						size="10" />	
 					<form:errors path="dob" cssClass="text-warning"></form:errors>									
 				</fieldset>	
 				<fieldset id="contactNoField" name="contactNoField">

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class Contact
 	@Size(min = 4, message = "First Name should have a min of 4 characters")
 	private String firstName;
 	
-	@Size(min = 2, message = "Last Name should have a min of 4 characters")
+	@Size(min = 2, message = "Last Name should have a min of 2 characters")
 	private String lastName;
 	
 	/**
@@ -42,13 +43,14 @@ public class Contact
 	 * as a String in YYYY-MM-DD format.
 	 * </p>
 	 */
-	@NotBlank(message = "Date of Birth should NOT be blank")
 	private String dob;
 	
 	@NotBlank(message = "Contact No. should NOT be blank")
+	@Size(min=10, max=10, message = "Contact Number must have exactly 10 digits")
 	private String contactNo;
 	
-	@NotBlank(message = "Email should NOT be blank")
+	
+	@Email(message = "Please provide a valid Email Address")
 	private String email;
 	
 	/**
