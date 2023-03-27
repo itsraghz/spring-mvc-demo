@@ -299,7 +299,8 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 	```
 	> *Note*: If theer is a bean declared in the XML file that will take the preference than the one declared in the Java class via `@Bean` annotation.
 * Assignment #3 - Login using Spring JDBC and Spring MVC to have the login credentials stored and verified from the Database table than the one hardcoded.
-	* I will create a separate github repo name for this assignment.
+	* I will create a separate github repo name for this assignment. *Name*: `Assignment3-SpringJDBC-Login-27Mar2023-Karthik
+		* https://github.com/itsraghz/spring-mvc-demo/tree/Assignment3-SpringJDBC-Login-27Mar2023-Arun
 * Spring MVC Rest
 	* Dependency on Jackson API
 	```xml
@@ -313,4 +314,5 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 	* Search Capability to make it more meaningful
 * Spring Security
 * I18N (Internationlization) capabilities
+
 
