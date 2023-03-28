@@ -31,10 +31,14 @@ public class Contact
 	 */
 	private int id;
 	
-	@Size(min = 4, message = "First Name should have a min of 4 characters")
+	@NotBlank(message = "First Name should NOT be blank")
+	@Size(min = 4, max=30, message = "First Name should have a min of 4 characters and "
+			+ "max of 30 characters")
 	private String firstName;
 	
-	@Size(min = 2, message = "Last Name should have a min of 2 characters")
+	@NotBlank(message = "Last Name should NOT be blank")
+	@Size(min = 2, max =30, message = "Last Name should have a min of 2 characters"
+			+ "and of max 30 characters")
 	private String lastName;
 	
 	/**
@@ -50,13 +54,15 @@ public class Contact
 	@Size(min = 10, max = 10, message = "Contact Number must exactly have 10 digits")
 	private String contactNo;
 	
-	//@NotBlank(message = "Email should NOT be blank")
+
 	@Email(message = "Please provide a valid Email address")
+	@Size(max =30, message="Email can have a maximum of 30 characters")
 	private String email;
 	
 	/**
 	 * <p>A short notes associated with a contact. </p>
 	 */
+	@Size(max =50, message="Notes can have a maximum of 50 characters")
 	private String notes;
 
 	/**
@@ -65,6 +71,7 @@ public class Contact
 	 * Example: Office, Family, Relatives, College etc., 
 	 * </p>
 	 */
+	@Size(max =50, message="Tag can have a maximum of 50 characters")
 	private String tag;
 	
 	@Override
