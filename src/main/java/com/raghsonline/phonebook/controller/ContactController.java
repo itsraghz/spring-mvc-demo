@@ -48,6 +48,17 @@ public class ContactController
 	
 	@Autowired
 	ContactService contactService;
+
+	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
+	public String getAllContacts(ModelMap model)
+	{
+		logger.info("getAllContacts() invoked");
+		
+		/* Using the CRUD Method Overridden from the Service Interface */
+		model.addAttribute("contacts", contactService.getAllContacts());
+		
+		return "phonebook/contacts";
+	}
 	
 	@RequestMapping(value = "add-contact", method = RequestMethod.GET)
 	public String showAddContactPage(ModelMap model )
@@ -69,17 +80,6 @@ public class ContactController
 		model.addAttribute("contact", contact);
 		
 		return "phonebook/addContact";
-	}
-	
-	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
-	public String getAllContacts(ModelMap model)
-	{
-		logger.info("getAllContacts() invoked");
-		
-		/* Using the CRUD Method Overridden from the Service Interface */
-		model.addAttribute("contacts", contactService.getAllContacts());
-		
-		return "phonebook/contacts";
 	}
 	
 	/* 

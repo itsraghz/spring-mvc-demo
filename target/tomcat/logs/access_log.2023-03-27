@@ -85,3 +85,7 @@
 127.0.0.1 - - [27/Mar/2023:18:13:50 +0530] "POST /spring-mvc-demo/update-contact?id=5 HTTP/1.1" 200 1721 http-bio-8080-exec-10 118
 127.0.0.1 - - [27/Mar/2023:18:13:54 +0530] "GET /spring-mvc-demo/contacts HTTP/1.1" 200 5158 http-bio-8080-exec-10 40
 127.0.0.1 - - [27/Mar/2023:18:13:54 +0530] "GET /spring-mvc-demo/images/favicon.ico HTTP/1.1" 404 949 http-bio-8080-exec-5 5
+127.0.0.1 - - [27/Mar/2023:19:11:41 +0530] "GET /spring-mvc-demo/contacts HTTP/1.1" 200 5126 http-bio-8080-exec-9 85
+127.0.0.1 - - [27/Mar/2023:19:11:41 +0530] "GET /spring-mvc-demo/images/favicon.ico HTTP/1.1" 404 949 http-bio-8080-exec-9 6
+127.0.0.1 - - [27/Mar/2023:19:17:30 +0530] "GET /spring-mvc-demo/contact?id=2 HTTP/1.1" 200 1582 http-bio-8080-exec-3 97
+127.0.0.1 - - [27/Mar/2023:19:17:30 +0530] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
