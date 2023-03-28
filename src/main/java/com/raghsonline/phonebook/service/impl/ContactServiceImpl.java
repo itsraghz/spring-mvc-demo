@@ -229,40 +229,52 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public void updateContact(Contact contact) throws BusinessException 
+	public int updateContact(Contact contact) throws BusinessException 
 	{
-		System.out.println("updateContact invoked!");
+		logger.debug("updateContact() invoked");
 		
-		/**
-		 * Because we use a hardcoded list of data now,
-		 * we can remove the existing object/item from the list matching with the Id, 
-		 * and then add it further into the same list.	
-		 */
-		Optional<Contact> optionalContact = getContactById(contact.getId());
+		logger.info("Contact Object received : " + contact);
 		
-		if(optionalContact.isEmpty())
+		
+		
+		Optional<Contact> optionalContactFromDB = contactDAO.getById(contact.getId());
+		
+		Contact contactFromDB = optionalContactFromDB.get();
+		
+		if((contact.getContactNo()).equals(contactFromDB.getContactNo()))
 		{
-			System.out.println("Contact is not available!");
-			return;
+			logger.info("Contact Number unchanged for the given id");
 		}
 		
-		logger.info("contact matching : " + optionalContact.get());
+		//Duplicate contact check
+		else
+		{
+			if(isContactDuplicate(contact)) 
+			{
+				String errorMsg = "ContactNo already exists!";
+				logger.error(errorMsg);
+				throw new BusinessException(errorMsg);
+			}
+		}
 		
-		/*System.out.println("size of the contactList before removal : " + contactList.size());
-		contactList.remove(contact);
 		
-		System.out.println("size of the contactList after removal : " + contactList.size());
-		contactList.stream().forEach(System.out::println);
 		
+		logger.info("Contact object received with updated values : " + contact);
+
+		/** 
+		 * Here is what we adjust the links 
+		 * 
+		 * 1. Cut the link from Service to hardcoded list
+		 * 2. Add the new link (Service to Repository)
+		 * 
+		 */
 		//contactList.add(contact);
-		addContact(contact);
+		//return contact.getId();
 		
-		System.out.println("size of the contactList after addition : " + contactList.size());
-		contactList.stream().forEach(System.out::println);*/
-		
-		contactDAO.update(contact);
-		
-		logger.info("An attempt to update the contact was completed!");
+		int rowsUpdated = contactDAO.update(contact);
+		logger.info("rowsUpdated : " + rowsUpdated);
+		return rowsUpdated;
+
 	}
 
 	@Override

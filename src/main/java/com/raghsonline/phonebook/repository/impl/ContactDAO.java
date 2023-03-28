@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.raghsonline.phonebook.model.Contact;
+import com.raghsonline.phonebook.model.User;
 import com.raghsonline.phonebook.repository.DAO;
 
 @Repository
@@ -401,23 +402,18 @@ public class ContactDAO implements DAO<Contact>
 		return optionalContact;
 	}
 
-	@Override
-	public void update(Contact t) 
+	public int update(Contact t)
 	{
-		logger.info("update(Contact) invoked, contact :" + t);
 		
 		String sql = "UPDATE Contact SET "
-				+ " FirstName=?, LastName=?, Dob=?, ContactNo=?, Email=?, Notes=?, Tag=? "
-				+ " WHERE ID=?";
+				+ "FirstName = ?, LastName=?, Dob=?, ContactNo=?, Email=?, Notes=?, Tag=? "
+				+ "WHERE ID = ?";
 		
-		long rowsAffected = jdbcTemplate.update(sql, 
-					t.getFirstName(), t.getLastName(), t.getDob(), 
-					t.getContactNo(), t.getEmail(), t.getNotes(), t.getTag(), 
-					t.getId() /* for the WHERE clause */
-				);
 		
-		logger.info("rowsAffected : " + rowsAffected);
+		int rowsUpdated = jdbcTemplate.update(sql, t.getFirstName(), t.getLastName(), t.getDob(),
+				t.getContactNo(), t.getEmail(), t.getNotes(), t.getTag(), t.getId());
 		
+		return rowsUpdated;
 	}
 
 	@Override
@@ -463,5 +459,8 @@ public class ContactDAO implements DAO<Contact>
 		
 		return contactList;
 	}
+
+	
+
 
 }

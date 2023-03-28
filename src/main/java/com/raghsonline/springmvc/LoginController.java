@@ -99,7 +99,8 @@ public class LoginController
 		}*/
 		
 		/* Now it is a reusable logic , than being hard coded inside a method */
-		boolean isValidUser = service.isValidUser(userName, password);
+		boolean isValidUser = false; 
+		isValidUser = service.isValidUser(userName, password);
 		
 		if(isValidUser)
 		{

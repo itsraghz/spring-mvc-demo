@@ -51,8 +51,9 @@ public interface ContactService
 	 * </p>
 	 * @param contact the contact to be updated
 	 * @throws BusinessException in case of any business validation failures
+	 * @return No of rows affected(updated in this case)
 	 */
-	public void updateContact(Contact contact) throws BusinessException;
+	public int updateContact(Contact contact) throws BusinessException;
 	
 	/**
 	 * <p>

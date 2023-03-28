@@ -48,17 +48,6 @@ public class ContactController
 	
 	@Autowired
 	ContactService contactService;
-
-	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
-	public String getAllContacts(ModelMap model)
-	{
-		logger.info("getAllContacts() invoked");
-		
-		/* Using the CRUD Method Overridden from the Service Interface */
-		model.addAttribute("contacts", contactService.getAllContacts());
-		
-		return "phonebook/contacts";
-	}
 	
 	@RequestMapping(value = "add-contact", method = RequestMethod.GET)
 	public String showAddContactPage(ModelMap model )
@@ -80,6 +69,17 @@ public class ContactController
 		model.addAttribute("contact", contact);
 		
 		return "phonebook/addContact";
+	}
+	
+	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
+	public String getAllContacts(ModelMap model)
+	{
+		logger.info("getAllContacts() invoked");
+		
+		/* Using the CRUD Method Overridden from the Service Interface */
+		model.addAttribute("contacts", contactService.getAllContacts());
+		
+		return "phonebook/contacts";
 	}
 	
 	/* 
@@ -269,37 +269,39 @@ public class ContactController
 	@RequestMapping(value = "update-contact", method=RequestMethod.GET)
 	public String updateContact(@RequestParam int id , ModelMap model)
 	{
-		logger.info("updateContact() invoked, with the requestParam ID : " + id);
-		
-		Optional<Contact> contact = contactService.getContactById(id);
-		
-		if(contact.isPresent())
-		{
-			model.addAttribute("contact", contact.get());
-		}
-		
-		/* We reuse the same addContact.jsp page here */
-		return "phonebook/addContact";
+		 logger.info("updateContact() invoked, with the requestParam ID : " + id);
+
+         Optional<Contact> contact = contactService.getContactById(id);
+
+         if(contact.isPresent())
+         {
+                 model.addAttribute("contact", contact.get());
+         }
+         
+         return "phonebook/updateContact";
+
 	}
 
 	@RequestMapping(value = "update-contact", method=RequestMethod.POST)
 	public String updateContact(@Valid Contact contact, BindingResult result, ModelMap model)
 	{
+	
 		logger.info("updateContact() POST invoked, with the requestParam contact : " + contact);
 		
 		if(result.hasErrors())
 		{
-			return "phonebook/addContact"; 
+			return "phonebook/updateContact"; 
 		}
 		
+		int rowsUpdated;
 		try {
-			contactService.updateContact(contact);
+			rowsUpdated = contactService.updateContact(contact);
 		} catch (BusinessException businessException) {
 			handleBusinessException(contact, result, businessException);
-			return "phonebook/addContact";
+			return "phonebook/updateContact";
 		}
 		
-		
+		logger.info("Rows Updated : " + rowsUpdated);
 		model.clear();
 		model.addAttribute("contact", contact);
 		
@@ -308,9 +310,14 @@ public class ContactController
 		 * NOT using a redirection to a view (redirect:/), rather we are 
 		 * returning the logical view name as a String value. 
 		 */
-		model.addAttribute("message", "Contact updated successfully!");
+		if(rowsUpdated>0)
+		{
+			model.addAttribute("message", "Contact updated successfully!");
+		}
 	
 		return "phonebook/viewContact";
+	
+
 	}
 
 	/**
@@ -383,6 +390,14 @@ public class ContactController
 		redirectAttrs.addFlashAttribute("message", message);
 		
 		return "redirect:/contacts";
+	}
+	
+	@RequestMapping(value = "home", method = RequestMethod.GET)
+	public String showAddHomePage()
+	{
+		logger.info("showAddHomePage() invoked...");
+		
+		return "welcome";
 	}
 	
 }

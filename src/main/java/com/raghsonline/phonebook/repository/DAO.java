@@ -3,6 +3,7 @@ package com.raghsonline.phonebook.repository;
 import java.util.List;
 import java.util.Optional;
 
+
 /**
  * <p>
  * A common interface for all the Data Access Operations (DAO)
@@ -59,7 +60,7 @@ public interface DAO<T>
 	 * </p>
 	 * @param t the contact object to be updated
 	 */
-	public void update(T t); // [U]
+	public int update(T t); // [U]
 	
 	/**
 	 * <p>
@@ -86,5 +87,7 @@ public interface DAO<T>
 	 * @return an instance of <tt>java.util.List</tt> containing all the entries.
 	 */
 	public List<T> getAll();
+	
+
 
 }

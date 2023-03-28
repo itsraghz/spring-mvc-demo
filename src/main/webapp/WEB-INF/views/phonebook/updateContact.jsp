@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Phonebook | Contact - Add</title>
+<title>Phonebook | Update - Contact</title>
 <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
 	rel="stylesheet">
 </head>
@@ -16,7 +16,8 @@
 	<div id="contacts" class="container">
 
 		<h1>
-			<span style="color: #43302e"><b>PhoneBook - Add Contact</b></span>
+			<span style="color: #43302e"><b>Phonebook | Update -
+					Contact</b></span>
 		</h1>
 		<div id="greeting">
 			<span style="color: #43302e"> Welcome, <b>${name}</b></span>
@@ -102,7 +103,7 @@
 						placeholder="Any meaningful short name to group/classify this Contact" />
 				</div>
 			</div>
-			<input class="btn btn-primary" type="submit" value="Add Contact" />
+			<input class="btn btn-primary" type="submit" value="Update Contact" />
 		</form:form>
 	</div>
 	<br />
