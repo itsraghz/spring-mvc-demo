@@ -3,7 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@page import ="java.util.List, com.raghsonline.phonebook.model.Contact, 
 		org.springframework.ui.ModelMap" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/WEB-INF/views/phonebook/inc/header.jsp" %> 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -14,7 +15,7 @@
 	</head>
 	<body>
 		<div id="contacts" class="container">
-			<h1>PhoneBook - Contacts</h1>
+			<h1 style=color:#00BFFF;>PhoneBook - Contacts</h1>
 			<div id="greeting">
 				Welcome, <b>${name}</b>. Your last successful login was at : <b>${lastSuccessfulLogin}</b>
 			</div>
@@ -64,7 +65,7 @@
 			else 
 			{
 		%>	
-				<p>
+				<p style=color:#6B8E23;>
 					Please find all the contacts in your Phonebook.
 				</p> 
 				<!--  Equivalent to out.println("Hello, JSTL") -->
@@ -87,9 +88,9 @@
 				%>
 				<table class="table table-striped table-hover table-bordered 
 							table-responsive caption-top">
-					<caption>View All Contacts</caption>
+					<caption style=color:#6B8E23;>View All Contacts</caption>
 					<thead>
-						<tr>	
+						<tr style=color:#6B8E23;>	
 							<th class="text-center">Id</th>
 							<th class="text-center">FirstName</th>
 							<th class="text-center">LastName</th>
@@ -113,9 +114,9 @@
 								<td>${contact.notes}</td>
 								<td>${contact.tag}</td>
 								<td>
-									<a href="contact?id=${contact.id}">View</a> &nbsp; | &nbsp;
-									<a href="update-contact?id=${contact.id}">Update</a>&nbsp; | &nbsp;
-									<a href="delete-contact?id=${contact.id}">Delete</a>
+								<a href="contact?id=${contact.id}"  class="btn btn-info" role="button">View</a> &nbsp; | &nbsp;
+								<a href="update-contact?id=${contact.id}"  class="btn btn-info" role="button">Update</a>&nbsp; | &nbsp;
+								<a href="delete-contact?id=${contact.id}"  class="btn btn-danger" role="button">Delete</a>
 								</td>
 							</tr>
 						</c:forEach>
@@ -141,3 +142,4 @@
 		</div>
 	</body>
 </html>
+<%@include file="/WEB-INF/views/phonebook/inc/footer.jsp" %>
