@@ -384,5 +384,12 @@ public class ContactController
 		
 		return "redirect:/contacts";
 	}
+	@RequestMapping(value = "home", method = RequestMethod.GET)
+	public String showAddHomePage()
+	{
+		logger.info("showAddHomePage() invoked...");
+
+		return "welcome";
+	}
 	
 }

@@ -1,7 +1,7 @@
 <%@page import="com.raghsonline.phonebook.model.Contact"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  
+  <%@include file="/WEB-INF/views/phonebook/inc/header.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,7 +11,7 @@
 	</head>
 	<body>
 		<div id="contacts" class="container">
-			<h1>Phonebook - View Contact</h1>
+			<h1 style=color:#00BFFF;>Phonebook - View Contact</h1>
 			<div id="greeting">
 				Welcome, <b>${name}</b>
 			</div>			
@@ -97,3 +97,4 @@
 		<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	</body>
 </html>
+<%@include file="/WEB-INF/views/phonebook/inc/footer.jsp" %>

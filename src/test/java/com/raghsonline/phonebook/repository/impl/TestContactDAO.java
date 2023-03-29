@@ -258,7 +258,8 @@ public class TestContactDAO
 		assertNotNull(contact);
 		
 		contact.setNotes(contact.getNotes() + " #Updated-Test");
-		contact.setTag(contact.getTag() + " #TestContactDAO");
+		//contact.setTag(contact.getTag() + " #TestContactDAO");
+		contact.setLastName(contact.getLastName() + " #TestContactDAO");
 	
 		logger.info("Contact object to be updated :: " + contact);
 		contactDAO.update(contact);
@@ -296,6 +297,7 @@ public class TestContactDAO
 		Contact contactToDelete = optionalContact.get();
 		assertNotNull(contactToDelete);
 		assertTrue(contactToDelete.getId() > 0);
+		
 		
 		logger.info("contactToDelete :: " + contactToDelete);
 		

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.raghsonline.phonebook.model.User;
+
 //Through @Controller we indicate Spring that this class
 //will now act as a receiving end (component) for all the
 //associated requests (for login).
@@ -74,6 +76,7 @@ public class LoginController
 					@RequestParam String password, 
 					Model model)
 	{
+		
 		/*
 		 * In Servlet, we use either "request.setAttribute(key, value)"
 		 * OR "session.setAttribute(key, value)" to send the value
@@ -99,8 +102,9 @@ public class LoginController
 		}*/
 		
 		/* Now it is a reusable logic , than being hard coded inside a method */
-		boolean isValidUser = service.isValidUser(userName, password);
-		
+		//boolean isValidUser = service.isValidUser(userName, password);
+		boolean isValidUser = false; 
+		isValidUser = service.isValidUser(userName, password);
 		if(isValidUser)
 		{
 			/* We would like to keep this 'name' key available in Session */
