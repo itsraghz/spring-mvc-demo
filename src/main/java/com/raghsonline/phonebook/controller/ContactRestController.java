@@ -28,7 +28,7 @@ public class ContactRestController
 	}
 	
 	@GetMapping(value = "/api/contacts")//, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody()
+	@ResponseBody() //Optional, but its presence does not do any harm! 
 	public List<Contact> getAllContacts()
 	{
 		logger.info("/api/contacts - invoked");
@@ -36,8 +36,7 @@ public class ContactRestController
 		return contactService.getAllContacts();
 	}
 	
-	@GetMapping(value = "/api/contacts/Optional/{id}")//, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody()
+	@GetMapping(value = "/api/contacts/Optional/{id}")
 	public Optional<Contact> getContactByIdOptional(@PathVariable long id)
 	{
 		logger.info("/api/contacts/Optional/{id} - invoked, id="+id);
@@ -45,8 +44,7 @@ public class ContactRestController
 		return contactService.getContactById(id);
 	}
 	
-	@GetMapping(value = "/api/contacts/{id}")//, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody()
+	@GetMapping(value = "/api/contacts/{id}")
 	public Contact getContactById(@PathVariable long id)
 	{
 		logger.info("/api/contacts/{id} - invoked, id="+id);

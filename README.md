@@ -310,6 +310,12 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 			<version>2.5.3</version>
 		</dependency>
 	```
+* Tools
+	* Browser - direct URL in the address bar
+	* Command Line tools - HTTPie, cURL
+	* Dedicated Rest Clients	
+		- Installable Apps - Postman, Insomnia REST
+		- Browser  Addons - RESTClient for Firefox
 * `JavaFaker` to have the random data added.
 	* Search Capability to make it more meaningful
 * Spring Security
