@@ -1,0 +1,173 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Spring MVC Demo",
+		"_postman_id": "44c41bdd-5088-20f5-4470-e37b11f51db2",
+		"description": "The list of API Requests for Spring MVC Demo Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "HelloRestController",
+			"description": "All the API Requests (HTTP Requests) for the HelloRestController.",
+			"item": [
+				{
+					"name": "/api/hello",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				},
+				{
+					"name": "/api/hello2",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello2",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				},
+				{
+					"name": "/api/hello2/",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello2/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				},
+				{
+					"name": "/api/hello/{name}",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello/Postman",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				},
+				{
+					"name": "/api/hello/weekdays",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello/weekdays",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				},
+				{
+					"name": "/api/hello/contact",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/hello/contact",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "API to invoke the URI /api/hello "
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ContactRestController",
+			"description": "All the API Requests (HTTP Requests) pertaining to the ContactRestController",
+			"item": [
+				{
+					"name": "Get All Contacts",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contact",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"Postman\",\n    \"dob\": \"2023-03-31\",\n    \"contactNo\": \"8930382315\",\n    \"email\": \"postman@restclient.com\",\n    \"notes\": \"Rest Client using PostMan\",\n    \"tag\": \"Java, Spring, Rest, Postman\"\n}"
+						},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact By Id",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact By Id [Optional]",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/Optional/3",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 8, \n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"Postman Updated\",\n    \"dob\": \"2023-03-31\",\n    \"contactNo\": \"8930382315\",\n    \"email\": \"postman@restclient.com\",\n    \"notes\": \"Rest Client using PostMan\",\n    \"tag\": \"Java, Spring, Rest, Postman, #UPD\"\n}"
+						},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contact (By Id)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/8",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
