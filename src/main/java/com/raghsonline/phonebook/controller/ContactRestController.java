@@ -1,5 +1,6 @@
 package com.raghsonline.phonebook.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +8,15 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -132,5 +135,105 @@ public class ContactRestController
 		logger.info("deletion status ? " + status);
 		
 		return status;
+	}
+	
+	/**
+	 * <p>
+	 * This method conditionally return the Contact object if one exists
+	 * with the matching Id supplied as an input parameter. Else it throws
+	 * a RuntimeException.
+	 * </p>
+	 * <p>
+	 * Nevertheless, it is not a recommended behavior to throw a <tt>RuntimeException</tt>
+	 * as the caller may NOT be aware and/or prepared to handle the scenario, as opposed to
+	 * the Checked or Compile Time exceptions. We are just doing this for the learning purposes.
+	 * </p>
+	 * @param id
+	 * @return
+	 * @throws RuntimeException
+	 */
+	@GetMapping(value = "/api/contacts/try/RTE/{id}")
+	public Contact getContactById2(@PathVariable long id)
+	{
+		logger.info("/api/contacts/try/RTE/{id} - invoked, id="+id);
+		
+		Optional<Contact> optionalContact =  contactService.getContactById(id);
+		
+		if(optionalContact.isPresent()) {
+			return optionalContact.get();
+		} else {
+			throw new RuntimeException("Contact not present with the given Id : " + id);
+		}
+	}
+	
+	@GetMapping(value = "/api/contacts/try/Object/{id}")
+	public Object getContactById3(@PathVariable long id)
+	{
+		logger.info("/api/contacts/try/Object/{id} - invoked, id="+id);
+		
+		Optional<Contact> optionalContact =  contactService.getContactById(id);
+		
+		if(optionalContact.isPresent()) {
+			return optionalContact.get();
+		} else {
+			return new String("Contact not present with the given Id : " + id);
+		}
+	}
+	
+	@GetMapping(value = "/api/contacts/try/RE/{id}")
+	public ResponseEntity<Object> getContactByIdResponseEntity(@PathVariable long id)
+	{
+		logger.info("/api/contacts/try/RE/{id} - invoked, id="+id);
+		
+		Optional<Contact> optionalContact =  contactService.getContactById(id);
+		
+		ResponseEntity<Object> responseEntity = null;
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("responseTime", LocalDateTime.now().toString());
+		
+		if(optionalContact.isPresent()) {
+			/* ------------------------------------------------------------ */
+			/* Straight forward and simple way */
+			/* ------------------------------------------------------------ */
+			////responseEntity = ResponseEntity.ok(optionalContact.get());
+			
+			/* ------------------------------------------------------------ */
+			/* Extended version with a custom Header - may be the timestamp */
+			/* ------------------------------------------------------------ */
+			responseEntity = ResponseEntity
+								.status(HttpStatus.OK)
+								.headers(headers)
+								.body(optionalContact.get());
+								
+		} else {
+			String errorMsg = "Contact Not Found with the Id supplied - " + id;
+			/**
+			 * Dilemma: HTTP 500 Vs 404? 
+			 * 
+			 * 500 - Internal Server Error, when the Server (Spring MVC) has no idea to handle the situation
+			 * 	Missing Piece - Data Not Available, Server has no idea of handling the situation, hence HTTP 500.
+			 * 
+			 * 404 - We have a control (Developer), and we know how to handle the situation.
+			 * 	Missing Piece - Data Not Available, we inform the Server how to handle the situation (via ResponseEntity)
+			 */
+			/* ------------------------------------------------------------ */
+			// Straight forward and simple way 
+			/* ------------------------------------------------------------ */
+			//[NOT NEEDED] - return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMsg);
+			//responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
+			
+			/* ------------------------------------------------------------ */
+			/* Extended version with a custom Header - may be the timestamp */
+			/* ------------------------------------------------------------ */
+			responseEntity = ResponseEntity
+								.status(HttpStatus.NOT_FOUND)
+								.headers(headers)
+								.body(errorMsg);
+		}
+		
+		logger.info("responseEntity :: " + responseEntity);
+		
+		return responseEntity;
 	}
 }

@@ -12,6 +12,10 @@ We use a static data (List) in the Service Impl, instead of the Database
 
 We will use a Database to manipulate the data, and we use JDBC to interact.
 
+## Phase 3
+
+We will expose the services as a Rest API
+
 ## Tech Stack
 
 ### Phase 1 
@@ -33,6 +37,10 @@ We will use a Database to manipulate the data, and we use JDBC to interact.
 * JDBC 
 * Spring JDBC
 * ORM / Hibernate (if time permits)
+
+### Phase 3
+
+* Spring Rest
 
 ## Features / Services
 
@@ -142,11 +150,11 @@ For any feature/module/service, we follow the steps.
 ## TODO
 
 * UI
-	* Reusable fragments - header, footer and Menu. #Assignment | Menus - Home, Contacts
-	* Add a Bootstrap button to the View
-	* Add the alignment for all the colums in the `addContact.jsp` page and do the necessary validations
-	* Checkout the person specific branch created in the GitHub Repo  `https://github.com/itsraghz/spring-mvc-demo/tree/Assignment1-UI-21Mar2023-Rama` and push your code in to the corresponding branch (Remote Feaure Branch). 
-	* The one scores high, will get merged with the PR (Pull Request) into the remote master/main branch.
+	* [DONE] Reusable fragments - header, footer and Menu. #Assignment | Menus - Home, Contacts
+	* [DONE] Add a Bootstrap button to the View
+	* [DONE] Add the alignment for all the colums in the `addContact.jsp` page and do the necessary validations
+	* [DONE] Checkout the person specific branch created in the GitHub Repo  `https://github.com/itsraghz/spring-mvc-demo/tree/Assignment1-UI-21Mar2023-Rama` and push your code in to the corresponding branch (Remote Feaure Branch). 
+	* [PENDNIG] The one scores high, will get merged with the PR (Pull Request) into the remote master/main branch.
 
 * Pending /TBD Later
 	* Add a favico - `<link rel="icon" type="image/x-icon" href="/images/favicon.ico">`
@@ -384,11 +392,26 @@ Factors :
 
 > *Note*: The URL Pattern and the HTTP Method should be unique. The Spring MVC framework will throw an exception while getting started and it is preparing its internal Map (URL Pattern with the RequestHandlerMapping), if it is otherwise.
 
+## Rest API Vs Exception Handling
+
+* Default - blows up the stack trace
+* Flavor #1 - Throw a `RuntimeException` - No big difference
+* Flavor #2 - Return a generic `Object` - Better but status code is inappropriate.
+* Flavor #3 - Use a `ResponseEntity<T>` which is a wrapper object that carries 
+	- Actual Response Data
+	- Custom Response Headers
+	- Http Status Code
+
 ### Assignment
 
 * Make the HTTP Post/Put/Delete requests via `cURL`, as we have demonstrated the same using *Insomnia REST Client* in the class.
+* Go through the list of HTTP Status code and get an understanding of each category (1XX to 5XX) and read about the famous status code in each category, especially 2XX, 4XX and 5XX. [Wikipedia Link - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 ### Pending Things
 
-* Exception Handling on the Rest API Methods
+* [DONE] Exception Handling on the Rest API Methods
 * See the `@Valid` annotation in Action for the validation rules
+* Put Vs Patch method in Rest API
+* Java 8 Streams - on all the business logic where applicable
+* Log4J to have a rolling file appender
+* Merge the assignment branches to master via the PR (Pull Request)

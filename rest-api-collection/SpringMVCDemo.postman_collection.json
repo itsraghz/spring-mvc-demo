@@ -117,7 +117,40 @@
 				{
 					"name": "Get Contact By Id",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/contacts",
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/11",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact By Id  (Try - RuntimeException)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/11",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact By Id  (Try - Generic Return Type)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/Object/22",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact By Id  (Try ResponseEntity)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE/33",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -128,7 +161,7 @@
 				{
 					"name": "Get Contact By Id [Optional]",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/Optional/3",
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/Optional/11",
 						"method": "GET",
 						"header": [],
 						"body": {},
