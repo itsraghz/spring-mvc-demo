@@ -1,5 +1,6 @@
 /Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/phonebook/service/ContactService.java
 /Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/springmvc/LoginService.java
+/Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/phonebook/exception/GlobalExceptionHandler.java
 /Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/phonebook/model/Contact.java
 /Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/phonebook/controller/ContactRestController.java
 /Users/raghavan.muthu/eclipse-workspace/spring-mvc-demo/src/main/java/com/raghsonline/phonebook/controller/ContactController.java

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -75,7 +77,6 @@ public class ContactRestController
 	{
 		logger.info("POST - /api/contacts request received");
 		logger.info("RequestBody :: " + contact);
-		
 		/* 
 		 * It is time to really act on the contact object. We need to make a few changes to the method
 		 *  
@@ -86,8 +87,7 @@ public class ContactRestController
 		 *  	similar to what we had in the @Controller with Web (ContactController)
 		 */
 		/* Now you understand, why we have a Service object reference here! */
-		long newlyInsertedId = 0;
-		String message = null;
+		long newlyInsertedId = 0;  String message = null;
 		try {
 			newlyInsertedId = contactService.addContact(contact);
 			logger.info("newlyInsertedId ::: " + newlyInsertedId);
@@ -232,6 +232,65 @@ public class ContactRestController
 								.body(errorMsg);
 		}
 		
+		logger.info("responseEntity :: " + responseEntity);
+		
+		return responseEntity;
+	}
+	
+	@PostMapping("/api/contacts/try/RE")
+	public ResponseEntity<String> addContactResponseEntity
+			(@Valid @RequestBody Contact contact,
+					MethodArgumentNotValidException methodArgNotValidException)
+	{
+		BindingResult bindingResult = methodArgNotValidException.getBindingResult();
+		
+		if(bindingResult.hasErrors()) 
+		{
+			logger.info("POST - /api/contacts/try/RE - BindingResult has errors !!!");
+			
+			bindingResult
+				.getAllErrors()
+				.stream()
+				.forEach(x -> logger.error("Error on the field [" + x.getObjectName() 
+							+ "], " + " Message : " + x.getDefaultMessage()));
+			
+		}
+		
+		logger.info("POST - /api/contacts/try/RE request received");
+		logger.info("RequestBody :: " + contact);
+		
+		long newlyInsertedId = 0;  
+		String message = null;
+		
+		ResponseEntity<String> responseEntity = null;
+		HttpStatus status = null;
+		
+		try {
+			newlyInsertedId = contactService.addContact(contact);
+			logger.info("newlyInsertedId ::: " + newlyInsertedId);
+			message = "Contact successfully added with the Id : " + newlyInsertedId;
+			status = HttpStatus.CREATED;
+		} catch (BusinessException businessException) {
+			String errorMsg = businessException.getMessage();
+			logger.error("BusinessException occurred while adding a Contact");
+			logger.error("Error Message : " + errorMsg);
+			message = "Error while adding a Contact. Reason : " + errorMsg;
+			//TODO: Make it conditionally printed based on the 'AppDevMode' flag if any.
+			businessException.printStackTrace();
+			status = HttpStatus.CONFLICT;
+		} catch(Exception exception) {
+			String errorMsg = exception.getMessage();
+			logger.error("Exception occurred while adding a Contact");
+			logger.error("Error Message : " + errorMsg);
+			message = "Error while adding a Contact. Reason : " + errorMsg;
+			//TODO: Make it conditionally printed based on the 'AppDevMode' flag if any.
+			exception.printStackTrace();
+			status = HttpStatus.CONFLICT;
+		}
+		
+		responseEntity = ResponseEntity.status(status).body(message);
+		
+		logger.info("Message :: " + message);
 		logger.info("responseEntity :: " + responseEntity);
 		
 		return responseEntity;

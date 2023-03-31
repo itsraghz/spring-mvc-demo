@@ -341,10 +341,12 @@ direclty invoke the Service/Repository (depends on what you configured in the Ap
 
 ## `@Controller` Vs `@RestController`
 
-* Controller is used for Web (B2C), and returns the logical view name as a String - in Spring MVC
-* RestController is used for non-web (B2B), and it returns the complete response as a `@ResponseBody`.
-
-> *Note*: As a convention, the URL to the Rest Controller methods will have a prefix of `/api` to indicate that they belong the Rest API. But not a RULE to be followed!
+| `@Controller` | `@RestController` |
+| ------- | ---------- |
+| Used for Web (B2C) | Used for non-web (B2B) |
+| Returns the logical view name as a String - in Spring MVC. |  Returns the complete response as a `@ResponseBody` |
+| We have two different methods with the same URI pattern but a varying HTTP Method (for exampe, `/add-contact` with `@GetMapping` and `@PostMapping`- where the HTTP Get method is to get the UI Page with the Form to fill the inputs and the Http Post Method is to submit the inputs and get the processing done (creation of a new entity). | We do NOT have such two way communication, instead we have only one way, that is directly calling the Post Method. Reason : Rest does NOT bother about the User Interface.|
+| No prefix as a convention used on the URI | We typically use a prefix as `/api/` on the URI to indicate that it is of a Rest API. *NOTE*: It is just a convention and NOT a Rule! |
 	
 ## Rest Controller Flow with other layers
 
@@ -401,6 +403,21 @@ Factors :
 	- Actual Response Data
 	- Custom Response Headers
 	- Http Status Code
+	
+### Rest API Vs `@Valid` Annotation 
+
+* We need to validate the Domain objects in the `@PostMapping`, `@PutMapping` methods by using the `@Valid` annotation from `javax.validation` package for all the parameters bound to the Domain object from User Input.
+* Two different validations
+	- Domain Validation
+	- Boundary Check Validation
+* We need to ensure we are intact with the following
+	- Http Status Code
+	- Error Message, without the Server blowing up its internals.
+* Strategies
+	- Initial - Use `String` as a return type to show a mesage for either case (Success/ Exception). HttpStatus is always 200 (OK)!
+	- Use `ResponseEntity` - Boundary Check was missing and the validaion was carried out before even preparing the domain object `Contact` and pass it to the method argument.
+	- Use `@ExceptionHandler` along with the `@ControllerAdvice` or more precisely `@RestControllerAdvice` to handle the excpetions (`MethodArgumentNotValidException`) - on boundary checks
+	- Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breking the *Domain* Validation. - #TODO
 
 ### Assignment
 
@@ -410,7 +427,8 @@ Factors :
 ### Pending Things
 
 * [DONE] Exception Handling on the Rest API Methods
-* See the `@Valid` annotation in Action for the validation rules
+* [DONE] See the `@Valid` annotation in Action for the validation rules
+	* Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breking the *Domain* Validation. - #TODO
 * Put Vs Patch method in Rest API
 * Java 8 Streams - on all the business logic where applicable
 * Log4J to have a rolling file appender

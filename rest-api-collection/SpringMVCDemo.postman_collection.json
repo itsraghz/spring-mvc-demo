@@ -115,6 +115,26 @@
 					"response": []
 				},
 				{
+					"name": "Create Contact - (Try - ResponseEntity)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"Postman\",\n    \"dob\": \"2023-03-31\",\n    \"contactNo\": \"8930382315\",\n    \"email\": \"postman@restclient.com\",\n    \"notes\": \"Rest Client using PostMan\",\n    \"tag\": \"Java, Spring, Rest, Postman\"\n}"
+						},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
 					"name": "Get Contact By Id",
 					"request": {
 						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/11",
@@ -150,7 +170,7 @@
 				{
 					"name": "Get Contact By Id  (Try ResponseEntity)",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE/33",
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE/xyz",
 						"method": "GET",
 						"header": [],
 						"body": {},
