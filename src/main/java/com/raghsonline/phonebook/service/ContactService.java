@@ -50,9 +50,10 @@ public interface ContactService
 	 * A method to update the attributes of a Contact.
 	 * </p>
 	 * @param contact the contact to be updated
+	 * @return 
 	 * @throws BusinessException in case of any business validation failures
 	 */
-	public void updateContact(Contact contact) throws BusinessException;
+	public long updateContact(Contact contact) throws BusinessException;
 	
 	/**
 	 * <p>
@@ -61,5 +62,5 @@ public interface ContactService
 	 * @param id the sequence number (Id) of the Contact to be deleted
 	 * @return boolean true if there was a successful deletion, false otherwise.
 	 */
-	public boolean deleteContact(long id);
+	public long deleteContact(int id);
 }

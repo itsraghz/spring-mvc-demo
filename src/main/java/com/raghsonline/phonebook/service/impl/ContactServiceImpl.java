@@ -108,7 +108,7 @@ public class ContactServiceImpl implements ContactService
 		// All the boundary level validations are already performed at the Controller level */
 		if(isContactDuplicate(contact)) 
 		{
-			String errorMsg = "ContactNo already exists!";
+			String errorMsg = "Contact Number already exists!";
 			logger.error(errorMsg);
 			throw new BusinessException(errorMsg);
 		}
@@ -229,26 +229,42 @@ public class ContactServiceImpl implements ContactService
 	}
 
 	@Override
-	public void updateContact(Contact contact) throws BusinessException 
+	public long updateContact(Contact contact) throws BusinessException 
 	{
 		System.out.println("updateContact invoked!");
+		
+		Optional<Contact> optionalContact = getContactById(contact.getId());
+		
+		if(optionalContact.isEmpty())
+		{
+			System.out.println("Contact is not available!");
+			return 0;
+		}
+		
+		logger.info("contact matching : " + optionalContact.get());
+		
+		long rowsAffected = contactDAO.update(contact);
+		
+		logger.info("rowsAffected :" +rowsAffected );
+		
+		return rowsAffected;
 		
 		/**
 		 * Because we use a hardcoded list of data now,
 		 * we can remove the existing object/item from the list matching with the Id, 
 		 * and then add it further into the same list.	
 		 */
-		Optional<Contact> optionalContact = getContactById(contact.getId());
+		/*Optional<Contact> optionalContact = getContactById(contact.getId());
 		
 		if(optionalContact.isEmpty())
 		{
 			System.out.println("Contact is not available!");
-			return;
+			return null;
 		}
 		
-		logger.info("contact matching : " + optionalContact.get());
+		System.out.println("contact matching : " + optionalContact.get());
 		
-		/*System.out.println("size of the contactList before removal : " + contactList.size());
+		System.out.println("size of the contactList before removal : " + contactList.size());
 		contactList.remove(contact);
 		
 		System.out.println("size of the contactList after removal : " + contactList.size());
@@ -259,14 +275,10 @@ public class ContactServiceImpl implements ContactService
 		
 		System.out.println("size of the contactList after addition : " + contactList.size());
 		contactList.stream().forEach(System.out::println);*/
-		
-		contactDAO.update(contact);
-		
-		logger.info("An attempt to update the contact was completed!");
 	}
 
 	@Override
-	public boolean deleteContact(long id)
+	public long deleteContact(int id)
 	{
 		logger.info("deleteContact() invoked with id - " + id);
 		
@@ -287,22 +299,25 @@ public class ContactServiceImpl implements ContactService
 		 */
 
 		//Contact contactRemoved = null;
-		
-		boolean removalStatus = false;
-		/*Contact contactToBeDeleted = null;
+		//boolean removalStatus = false;
+		//Contact contactToBeDeleted = null;
+		long rowsAffected = 0;
 		
 		Optional<Contact> optionalContact = getContactById(id);
 		
 		if(optionalContact.isPresent()) {
-			contactToBeDeleted = optionalContact.get();
-			removalStatus = contactList.remove(contactToBeDeleted);
-		}*/
+			/*contactToBeDeleted = optionalContact.get();
+			removalStatus = contactList.remove(contactToBeDeleted);*/
+			rowsAffected = contactDAO.deleteById(id);
+		}
+		else
+		{
+			logger.info("No Contact is Avaliable to delete");
+		}
 		
-		removalStatus = contactDAO.deleteById(id);
+		logger.info("rowsAffected :: " + rowsAffected);
 		
-		logger.info("removalStatus :: " + removalStatus);
-		
-		return removalStatus;
+		return rowsAffected;
 	}
 
 }

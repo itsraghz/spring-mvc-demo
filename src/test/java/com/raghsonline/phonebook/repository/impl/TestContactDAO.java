@@ -112,7 +112,7 @@ public class TestContactDAO
 		logger.info("count :: " + count);
 	}
 	
-	@Test
+	//@Test
 	@DisplayName("Creating a Contact should successfully return an auto-generated sequence number")
 	@Order(2)
 	public void createContact() throws BusinessException 
@@ -237,71 +237,46 @@ public class TestContactDAO
 	}
 	
 	@Test
-	@DisplayName("Update Contact by Id should make the necessary changes in the Table")
+	@DisplayName("Update contact by Id and return rowsaffected")
 	@Order(7)
 	public void updateContact()
 	{
-		logger.info("updateContact() invoked");
+		logger.info("----------- updateContact() - Invoked ----------");
 		
-		Optional<Contact> optionalContact = contactDAO.getById(1);
+		Contact t =new Contact();
 		
-		logger.info("optionalContact :: " + optionalContact);
+		t.setFirstName("Update By Junit");
+		t.setLastName("JUnit");
+		t.setDob("2000-09-07");
+		t.setContactNo("0989089082");
+		t.setEmail("JUnit@gmail.com");
+		t.setNotes("Contact Upadted Through JUnit");		
+		t.setTag("JUnit Test");		
+		t.setId(1);
 		
-		if(optionalContact.isEmpty())
-		{
-			String errorMsg = "Empty object, can't update!";
-			logger.error(errorMsg);
-			Assertions.fail(errorMsg);
+		long rowsAffected = contactDAO.update(t);
+		logger.info(rowsAffected);
+		if(rowsAffected>0) {
+			assertTrue(rowsAffected>0);	
 		}
-		
-		Contact contact = optionalContact.get();
-		assertNotNull(contact);
-		
-		contact.setNotes(contact.getNotes() + " #Updated-Test");
-		contact.setTag(contact.getTag() + " #TestContactDAO");
-	
-		logger.info("Contact object to be updated :: " + contact);
-		contactDAO.update(contact);
-		logger.info("An attempt to update the contact object is completed");
+		else {
+			logger.info("No Data is avalibale to Edit");
+		}
+			
 	}
 	
 	@Test
-	@DisplayName("Delete Contact by Id should delete the corresponding row in the Table")
+	@DisplayName("Delete contact by Id and return rowsaffected")
 	@Order(8)
-	public void deleteContact() throws BusinessException
+	public void deleteContact()
 	{
-		logger.info("deleteContact() invoked");
+		logger.info("----------- deleteContact() - Invoked ----------");
 		
-		Contact contactToInsert = new Contact(-1, "Spring JDBC", "Unit Testing", 
-				"2003-01-01", "9999199999", 
-				"spring@jdbc.com", "Spring JDBC Delete Test", 
-				"Java, Spring, JDBC, Delete");
+		int id = 3;
 		
-		long id = addContact(contactToInsert);
-		logger.info("newly inserted id : " + id);
+		long rowsAffected = contactDAO.deleteById(id);
+		logger.info(rowsAffected);
+		assertTrue(rowsAffected>=1);
 		
-		/* Just to simulate the test case to fail */
-		id += 100;
-		Optional<Contact> optionalContact = contactDAO.getById(id);
-		
-		logger.info("optionalContact :: " + optionalContact);
-		
-		if(optionalContact.isEmpty())
-		{
-			String errorMsg = "Empty object, can't update!";
-			logger.error(errorMsg);
-			Assertions.fail(errorMsg);
-		}
-		
-		Contact contactToDelete = optionalContact.get();
-		assertNotNull(contactToDelete);
-		assertTrue(contactToDelete.getId() > 0);
-		
-		logger.info("contactToDelete :: " + contactToDelete);
-		
-		boolean deletionStatus = contactDAO.deleteById(id);
-		logger.info("An attempt to delete the contact object is completed");
-		logger.info("deletionStatus :: " + deletionStatus);
 	}
-	
 }

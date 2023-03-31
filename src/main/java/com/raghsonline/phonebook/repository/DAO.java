@@ -53,22 +53,11 @@ public interface DAO<T>
 	 */
 	public Optional<T> getByContactNo(String contactNo); // [R]
 	
-	/**
-	 * <p>
-	 * A method to update a Contact object.
-	 * </p>
-	 * @param t the contact object to be updated
-	 */
-	public void update(T t); // [U]
+	public long update(T t); // [U]
 	
-	/**
-	 * <p>
-	 * A method to delete a <t>Contact</tt> instance by its Id (Primary Key).
-	 * </p>
-	 * @param id the id of the contact to be deleted
-	 * @return a true/false indicating the status of the record being deleted
-	 */
-	public boolean deleteById(long id); //[D] - most popular
+	public long deleteById(int id); //[D] - most popular
+	
+	public boolean delete(T t); // [D] - other flavor of Delete
 	
 	/**
 	 * <p>

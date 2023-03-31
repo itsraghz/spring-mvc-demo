@@ -350,49 +350,10 @@ public class ContactDAO implements DAO<Contact>
 		
 		String sql = "SELECT * FROM CONTACT WHERE Id=?";
 		
-		Contact contact = null;
-		
-		try {
-			contact = jdbcTemplate.query(sql, new Object[] {id}, rs -> {
-				/**
-				 * Required to have a null check to avoid the following error.
-				 * 
-				 * HTTP Status 500 - Request processing failed; nested exception is 
-				 * org.springframework.dao.TransientDataAccessResourceException: 
-				 * PreparedStatementCallback; SQL [SELECT * FROM CONTACT WHERE Id=?]; 
-				 * Illegal operation on empty result set.; 
-				 * nested exception is java.sql.SQLException: Illegal operation on empty result set.
-				 */
-				/*if(null==rs || !rs.next()) {
-					logger.error("Resultset is either null OR empty! returning null");
-					return null;
-				}*/
-				
-				/* Not needed now, as it was performed in the previous step! */
-				//rs.next(); /* Needed in this case, otherwise you get "Before Resultset" Error! */
-				
-				/* Handle the new error - Caused by: java.sql.SQLException: After end of result set */
-				//rs.first();
-				
-				//return contactRowMapper(rs);
-				
-				/**
-				 * Handle the next level of exception
-				 * nested exception is java.sql.SQLException: 
-				 * Operation not allowed for a result set of type ResultSet.TYPE_FORWARD_ONLY.
-				 */
-				
-				if(rs.next()) {
-					return contactRowMapper(rs);
-				} else {
-					logger.error("Resultset is either null OR empty! returning null");
-					return null;
-				}
-			});			
-		}catch(EmptyResultDataAccessException emptyResultDataAccessException) {
-			logger.error("EmptyResultDataAccessException occured. Ignoring and returning an Optional.empty!");
-			return Optional.empty();
-		}
+		Contact contact = jdbcTemplate.query(sql, new Object[] {id}, rs -> {
+			rs.next();
+			return contactRowMapper(rs);
+		});
 		
 		logger.info("contact :: " + contact);
 		
@@ -402,40 +363,42 @@ public class ContactDAO implements DAO<Contact>
 	}
 
 	@Override
-	public void update(Contact t) 
+	public long update(Contact t)
 	{
-		logger.info("update(Contact) invoked, contact :" + t);
+		logger.info("updateContact Invoked() - " + t);
 		
-		String sql = "UPDATE Contact SET "
-				+ " FirstName=?, LastName=?, Dob=?, ContactNo=?, Email=?, Notes=?, Tag=? "
-				+ " WHERE ID=?";
+		String sql = "UPDATE CONTACT SET FirstName =?,LastName =?,DOB =?,ContactNo=?,EMAIL=?,NOTES=?,TAG=?"
+				   + "WHERE Id = ?";
+		logger.info("SQL Query :" + sql);
 		
+
 		long rowsAffected = jdbcTemplate.update(sql, 
-					t.getFirstName(), t.getLastName(), t.getDob(), 
-					t.getContactNo(), t.getEmail(), t.getNotes(), t.getTag(), 
-					t.getId() /* for the WHERE clause */
-				);
+				t.getFirstName(), t.getLastName(), t.getDob(), 
+				t.getContactNo(), t.getEmail(), t.getNotes(), t.getTag(),t.getId());
 		
 		logger.info("rowsAffected : " + rowsAffected);
 		
+		return rowsAffected;
 	}
 
 	@Override
-	public boolean deleteById(long id) 
+	public long deleteById(int id) 
 	{
-		logger.info("deleteById(Contact) invoked, id :" + id);
+		logger.info("deleteById - Invoked");
+		String sql = "DELETE FROM CONTACT WHERE Id = ?";
+		logger.info("SQL Query :" + sql);
 		
-		String sql = "DELETE FROM Contact WHERE ID=?";
+		long rowsAffected = jdbcTemplate.update(sql,id);
 		
-		long rowsAffected = jdbcTemplate.update(sql, 
-					id /* for the WHERE clause */
-				);
-		
-		logger.info("rowsAffected : " + rowsAffected);
-		
-		/* As we delete by Id (PK), it should exactly delete one record! */
-		return rowsAffected==1; 
+		return rowsAffected;
 	}
+
+	@Override
+	public boolean delete(Contact t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
