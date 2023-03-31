@@ -119,12 +119,12 @@ public class ContactRestController
 			String errorMsg = "Update was Unsuccessful!" +businessException.getMessage();
 			logger.error("BusinessException occurred while updating a Contact");
 			logger.error("Error Message : " + errorMsg);
+			message = "Error while updating a Contact. Reason : " + errorMsg;
 			//TODO: Make it conditioally printed based on the 'AppDevMode' flag if any.
 			businessException.printStackTrace();
-			return errorMsg;
+			
 		}
-		
-		return message;
+			return message;
 	}
 	
 	@DeleteMapping("/api/contacts/{id}")
