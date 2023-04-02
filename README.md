@@ -415,9 +415,28 @@ Factors :
 	- Error Message, without the Server blowing up its internals.
 * Strategies
 	- Initial - Use `String` as a return type to show a mesage for either case (Success/ Exception). HttpStatus is always 200 (OK)!
-	- Use `ResponseEntity` - Boundary Check was missing and the validaion was carried out before even preparing the domain object `Contact` and pass it to the method argument.
+	- Use `ResponseEntity` - Boundary Check was missing and the validaion was carried out before even preparing the domain object `Contact` and pass it to the method argument. 
+		* We caught two different exceptions for the line invoking the Service Layer in the Cotroller Method - (1) Usual BusinessException (2) MethodArgumentNotValidException and we prepared a `ResponseEntity` accordingly. 
+		* However, the control flow did not even enter the Controller Method because the order of execution is different wherein `@Valid` was executed first and whenever there was an exception during validation of the parameters passed in the Request JSON, the `MethodArgumentNotValidException` was thrown and hence neither the Domain object `Contact` was prepared with the inputs passed, NOR the control came inside the method.
 	- Use `@ExceptionHandler` along with the `@ControllerAdvice` or more precisely `@RestControllerAdvice` to handle the excpetions (`MethodArgumentNotValidException`) - on boundary checks
-	- Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breking the *Domain* Validation. - #TODO
+		-  #TODO Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breaking the *Domain* Validation (Duplicate Exception by means of a `BusinessException`.
+		
+## ExceptionHandler 
+
+* When we manually handle the exceptions via try-catch block (though for a genuine reasons),
+  - The Response data is handled well
+  - The HTTP Staus code is *NOT* handled! and it is mostly a HTTP 200 (OK).
+  
+* Spring MVC offers a way to handle this situation via `@ExceptioHandler`.
+
+	* Method Level 
+		* Add a new method in the Controller (`@RestController`) and annotate it with `@ExceptionHandler` by passing the .class of the actual `Exception` that it is intended to handle.
+		* Receive the Exception object as an Input argument in the Method
+		* Use `@ResponseStatus` annotation to set the HTTP Status Code, when the return type is NOT a `ResponseEntity`
+		* Use any return type - preferably `ResponseEntity<T>` as that can carry all the 3 elements - `Response Data`, `Custom Headers`, and the `Http Status Code`, OR any other return types on demand.
+	* Class Level 
+		* Annotate the `@RestController` class with `@RestControllerAdvice` to inform Spring that this class has an `@ExceptionHandler` method(s) for handling the exceptions, and hence Spring 
+		need NOT worry about handling that exception.
 
 ### Assignment
 

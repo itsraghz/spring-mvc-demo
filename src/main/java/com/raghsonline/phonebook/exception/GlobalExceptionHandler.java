@@ -41,10 +41,10 @@ public class GlobalExceptionHandler
 	}
 	
 	@ExceptionHandler(BusinessException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public String handleException2(BusinessException ex)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	public String handleBusinessException(BusinessException ex)
 	{
-		logger.error("handleException2 - BusinessException occurred");
+		logger.error("handleBusinessException() invoked!");
 		logger.error("Exception : " + ex);
 		logger.error("Error Message : " + ex.getMessage());
 		

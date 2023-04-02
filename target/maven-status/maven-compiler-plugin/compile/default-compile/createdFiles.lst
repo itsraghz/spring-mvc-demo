@@ -9,6 +9,7 @@ com/raghsonline/phonebook/model/Contact.class
 com/raghsonline/phonebook/repository/impl/ContactDAO.class
 com/raghsonline/phonebook/controller/HelloRestController.class
 com/raghsonline/jee/LoginServlet.class
+com/raghsonline/springmvc/exceptionhandler/controller/ExceptionHandlerController.class
 com/raghsonline/phonebook/controller/ContactRestController.class
 com/raghsonline/phonebook/service/ContactService.class
 com/raghsonline/phonebook/config/AppConfig.class

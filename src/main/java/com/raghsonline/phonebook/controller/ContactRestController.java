@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.raghsonline.phonebook.exception.BusinessException;
 import com.raghsonline.phonebook.model.Contact;
 import com.raghsonline.phonebook.service.ContactService;
 
 @RestController
+@RestControllerAdvice
 public class ContactRestController 
 {
 	Logger logger = Logger.getLogger(ContactRestController.class);
@@ -237,8 +239,8 @@ public class ContactRestController
 		return responseEntity;
 	}
 	
-	@PostMapping("/api/contacts/try/RE")
-	public ResponseEntity<String> addContactResponseEntity
+	@PostMapping("/api/contacts/try/error/RE")
+	public ResponseEntity<String> addContactErrorResponseEntity
 			(@Valid @RequestBody Contact contact,
 					MethodArgumentNotValidException methodArgNotValidException)
 	{
@@ -256,7 +258,7 @@ public class ContactRestController
 			
 		}
 		
-		logger.info("POST - /api/contacts/try/RE request received");
+		logger.info("POST - /api/contacts/try/error/RE request received");
 		logger.info("RequestBody :: " + contact);
 		
 		long newlyInsertedId = 0;  
@@ -294,5 +296,23 @@ public class ContactRestController
 		logger.info("responseEntity :: " + responseEntity);
 		
 		return responseEntity;
+	}
+	
+	@PostMapping("/api/contacts/try/RE")
+	public String addContactResponseEntity(@Valid @RequestBody Contact contact) 
+	throws BusinessException
+	{
+		logger.info("POST - /api/contacts/try/RE request received");
+		logger.info("RequestBody :: " + contact);
+		
+		long newlyInsertedId = 0; 
+		String message = null;
+		
+		newlyInsertedId = contactService.addContact(contact);
+		
+		logger.info("newlyInsertedId :: " + newlyInsertedId);
+		message = "Contact successfully added with the Id - " + newlyInsertedId;
+		
+		return message;
 	}
 }
