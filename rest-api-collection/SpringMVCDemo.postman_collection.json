@@ -115,7 +115,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Contact - (Try - ResponseEntity)",
+					"name": "Create Contact - (Try - ERROR - ResponseEntity)",
 					"request": {
 						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE",
 						"method": "POST",
@@ -129,6 +129,26 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"Postman\",\n    \"dob\": \"2023-03-31\",\n    \"contactNo\": \"8930382315\",\n    \"email\": \"postman@restclient.com\",\n    \"notes\": \"Rest Client using PostMan\",\n    \"tag\": \"Java, Spring, Rest, Postman\"\n}"
+						},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contact - (Try - ResponseEntity)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"ExceptionHandler\",\n    \"dob\": \"2023-03-31\",\n    \"contactNo\": \"6789012355\",\n    \"email\": \"postman@restclient.com\",\n    \"notes\": \"Rest Client using PostMan\",\n    \"tag\": \"Java, Spring, Rest, Postman\"\n}"
 						},
 						"description": "An API Request to get all the contacts from the System (Database)"
 					},
@@ -217,6 +237,78 @@
 						"header": [],
 						"body": {},
 						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ExceptionHandlerController",
+			"description": "",
+			"item": [
+				{
+					"name": "sayHello",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/hello",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
+					},
+					"response": []
+				},
+				{
+					"name": "divide/{n1}/{n2}",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/divide/6/0",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
+					},
+					"response": []
+				},
+				{
+					"name": "divide/AE/{n1}/{n2}",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/divide/AE/13/0",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
+					},
+					"response": []
+				},
+				{
+					"name": "strLen",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/strLen/Raghs",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
+					},
+					"response": []
+				},
+				{
+					"name": "charAtIndex/{input}",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/chatAtIndex/Spring",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
+					},
+					"response": []
+				},
+				{
+					"name": "getRainbowColorForCode/{codeChar}",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/getRainbowColor/R",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "A sanity test URI for the ExceptionHandler Demo - /api/exceptionHandler"
 					},
 					"response": []
 				}
