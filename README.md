@@ -14,7 +14,7 @@ We will use a Database to manipulate the data, and we use JDBC to interact.
 
 ## Phase 3
 
-We will expose the services as a Rest API
+We will expose the services as a Rest API, and add Java Faker Library to ingest the test / fake data.
 
 ## Tech Stack
 
@@ -41,6 +41,7 @@ We will expose the services as a Rest API
 ### Phase 3
 
 * Spring Rest
+* Java Faker Library
 
 ## Features / Services
 
@@ -130,7 +131,7 @@ For any feature/module/service, we follow the steps.
 * Issue : The update was not properly happening
 * Solution : 
 	* Domain - manualy provide the `hashCode()` and `equals()` method, than the one given by Lombok.
-	* Reduced the width of the @Size attribute for the lastName field - from 4 to 2.
+	* Reduced the width of the `@Size` attribute for the lastName field - from 4 to 2.
 * Issue : The contact being attempted with the existing contact #. Because it is a hard coded list we manage in Phase 1 and we execute in two steps. First, we remove the item first and then adding the list later to the list. Here the removal fo an item is successful but the addition gets failed due to the validaiton for Duplicate based on the Contact #. Hence, the operation is partially completed! :( It is NOT the desired way.  Either we should do it ALL or NONE - honoring the ACID style (Atomicity, Consistency, Isolation and Durability).
 * Solution : Use Transaction Management - either manually using the JTA (Java Transaction API) (old style), OR let the framework like Spring manage it for us, as that was one of the primary goals of such frameworks.
 
@@ -419,7 +420,7 @@ Factors :
 		* We caught two different exceptions for the line invoking the Service Layer in the Cotroller Method - (1) Usual BusinessException (2) MethodArgumentNotValidException and we prepared a `ResponseEntity` accordingly. 
 		* However, the control flow did not even enter the Controller Method because the order of execution is different wherein `@Valid` was executed first and whenever there was an exception during validation of the parameters passed in the Request JSON, the `MethodArgumentNotValidException` was thrown and hence neither the Domain object `Contact` was prepared with the inputs passed, NOR the control came inside the method.
 	- Use `@ExceptionHandler` along with the `@ControllerAdvice` or more precisely `@RestControllerAdvice` to handle the excpetions (`MethodArgumentNotValidException`) - on boundary checks
-		-  #TODO Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breaking the *Domain* Validation (Duplicate Exception by means of a `BusinessException`.
+		- Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breaking the *Domain* Validation (Duplicate Exception by means of a `BusinessException`.
 		
 ## ExceptionHandler 
 
@@ -447,6 +448,7 @@ Factors :
 	- The URI is NOT too verbose
 	- The changes can be easily made at a single place - at the Class level.
 
+
 > *NOTE*: This API URI Optimization is not only for the `RestController` but it is applicable for `@Controller` classes as well.
 	
 ### Assignment
@@ -454,12 +456,57 @@ Factors :
 * Make the HTTP Post/Put/Delete requests via `cURL`, as we have demonstrated the same using *Insomnia REST Client* in the class.
 * Go through the list of HTTP Status code and get an understanding of each category (1XX to 5XX) and read about the famous status code in each category, especially 2XX, 4XX and 5XX. [Wikipedia Link - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
-### Pending Things
+## Java Faker 
+
+An Open Source Repository/library/framework that helps us fill the fake data (seemingly 
+real but not the dummy) for our application.
+
+Three different kinds of data we deal with when working with an application.
+
+* Real - The actual data
+* Fake - Seeming real but may not exist
+* Dummy - Gibberish, like `abcd`, `pqr`, `xyz`, `grrr` etc., - does not really add any value.
+
+* Faker Library helps us fill the fake data based on the columns what we have
+in our Domain (Contact, Person, Book, Movie, etc., )
+
+### Where it is available? 
+
+* Github - [https://github.com/DiUS/java-faker](https://github.com/DiUS/java-faker)
+* Maven - [https://mvnrepository.com/artifact/com.github.javafaker/javafaker/1.0.2](https://mvnrepository.com/artifact/com.github.javafaker/javafaker/1.0.2)
+
+### How does a Faker Library work?
+
+* It has a collection of data - prefilled.
+* It has a Randomness - added
+* It has got the *locale* (en_US, en_IN etc., ) based on the country, language that we speak
+
+### How do we use it ?
+
+```java
+	@Test
+	@DisplayName("Java Faker should return the valid values")
+	public void javaFakerSimpleTest()
+	{
+		Faker faker = new Faker(new Locale("en-IND"));
+		
+		String firstName = faker.name().firstName();
+		logger.info("Faker First Name : " + firstName);
+		assertNotNull(firstName);
+		
+		String lastName = faker.name().lastName();
+		logger.info("Faker Last Name : " + lastName);
+		assertNotNull(lastName);
+	}
+```
+
+
+# Pending Things
 
 * [DONE] Exception Handling on the Rest API Methods
 * [DONE] See the `@Valid` annotation in Action for the validation rules
-	* Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breking the *Domain* Validation. - #TODO
+	* [DONE] Domain Validation + GlobalException - helps for the `@Valid` annotation validtion (Boundary Checks) but breking the *Domain* Validation.
 * Put Vs Patch method in Rest API
-* Java 8 Streams - on all the business logic where applicable
-* Log4J to have a rolling file appender
+* [WIP] Java 8 Streams - on all the business logic where applicable
+* [DONE] Log4J to have a rolling file appender
 * Merge the assignment branches to master via the PR (Pull Request)
