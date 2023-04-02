@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,6 +19,7 @@ import com.raghsonline.springmvc.exceptionhandler.exception.ElementNotFoundExcep
 
 @RestController
 @RestControllerAdvice
+@RequestMapping("/api/exceptionHandler") //Take the common prefix - applied across all the API URIs of this class.
 public class ExceptionHandlerController 
 {
 
@@ -30,7 +32,8 @@ public class ExceptionHandlerController
 	 * </p>
 	 * @return a String welcoming the User to the Spring MVC ExceptionHandling
 	 */
-	@GetMapping("/api/exceptionHandler/hello")
+	//@GetMapping("/api/exceptionHandler/hello")
+	@GetMapping("/hello")
 	public String sayHello()
 	{
 		logger.info("/api/exceptionHandler/hello invoked!");
@@ -50,7 +53,7 @@ public class ExceptionHandlerController
 	 * @return a numeric value which is the remainder, OR an <tt>ArithmeticException</tt> 
 	 * 			if the divisor is zero (0).
 	 */
-	@GetMapping("/api/exceptionHandler/divide/{n1}/{n2}")
+	@GetMapping("/divide/{n1}/{n2}")
 	public long divide(@PathVariable long n1, @PathVariable long n2)
 	{
 		logger.info("/api/exceptionHandler/divide/{n1}/{n2} invoked");
@@ -137,7 +140,7 @@ public class ExceptionHandlerController
 		return responseEntity;
 	}
 	
-	@GetMapping("/api/exceptionHandler/chatAtIndex/{input}")
+	@GetMapping("/chatAtIndex/{input}")
 	public char charAtIndex(@PathVariable String input)
 	{
 		logger.info("charAtIndex() invoked!");
@@ -190,7 +193,7 @@ public class ExceptionHandlerController
 	 * @return a numeric value which is the remainder, will be -1 in case the divisor is 0
 	 * 			(programatically handled)
 	 */
-	@GetMapping("/api/exceptionHandler/divide/AE/{n1}/{n2}")
+	@GetMapping("/divide/AE/{n1}/{n2}")
 	public long divideCatch(@PathVariable long n1, @PathVariable long n2)
 	{
 		logger.info("/api/exceptionHandler/divide/{n1}/{n2} invoked");
@@ -211,7 +214,7 @@ public class ExceptionHandlerController
 		return result;	
 	}
 	
-	@GetMapping("/api/exceptionHandler/strLen/")
+	@GetMapping("/strLen/")
 	public int stringLen()
 	{
 		logger.info("stringLen() invoked!");
@@ -246,7 +249,7 @@ public class ExceptionHandlerController
 		
 	}
 	
-	@GetMapping("/api/exceptionHandler/getRainbowColor/{codeChar}")
+	@GetMapping("/getRainbowColor/{codeChar}")
 	public int getRainbowColorForCode(@PathVariable String codeChar) 
 	throws ElementNotFoundException
 	{

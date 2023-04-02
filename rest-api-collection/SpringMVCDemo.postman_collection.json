@@ -117,7 +117,7 @@
 				{
 					"name": "Create Contact - (Try - ERROR - ResponseEntity)",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE",
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/erorr/RE",
 						"method": "POST",
 						"header": [
 							{
@@ -230,6 +230,26 @@
 					"response": []
 				},
 				{
+					"name": "Update Contact - Try (RE)",
+					"request": {
+						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/try/RE",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 11,\n    \"firstName\": \"Rest Test\",\n    \"lastName\": \"Postman #UPDTest2\",\n    \"dob\": \"2023-03-30\",\n    \"contactNo\": \"6789012356\",\n    \"email\": \"restclient@insomnia.com\",\n    \"notes\": \"Spring MVC CRUD Insomnia\",\n    \"tag\": \"Java, Spring, Rest, Insomnia\"\n}"
+						},
+						"description": "An API Request to get all the contacts from the System (Database)"
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Contact (By Id)",
 					"request": {
 						"url": "http://localhost:8080/spring-mvc-demo/api/contacts/8",
@@ -271,7 +291,7 @@
 				{
 					"name": "divide/AE/{n1}/{n2}",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/divide/AE/13/0",
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/divide/AE/13/5",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -282,7 +302,7 @@
 				{
 					"name": "strLen",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/strLen/Raghs",
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/strLen/Java",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -293,7 +313,7 @@
 				{
 					"name": "charAtIndex/{input}",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/chatAtIndex/Spring",
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/chatAtIndex/JAR",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -304,7 +324,7 @@
 				{
 					"name": "getRainbowColorForCode/{codeChar}",
 					"request": {
-						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/getRainbowColor/R",
+						"url": "http://localhost:8080/spring-mvc-demo/api/exceptionHandler/getRainbowColor/K",
 						"method": "GET",
 						"header": [],
 						"body": {},

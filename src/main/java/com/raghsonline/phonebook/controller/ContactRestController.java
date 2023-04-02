@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -29,6 +30,7 @@ import com.raghsonline.phonebook.service.ContactService;
 
 @RestController
 @RestControllerAdvice
+@RequestMapping("/api/contacts")
 public class ContactRestController 
 {
 	Logger logger = Logger.getLogger(ContactRestController.class);
@@ -42,7 +44,8 @@ public class ContactRestController
 		this.contactService = contactService;
 	}
 	
-	@GetMapping(value = "/api/contacts")//, produces = MediaType.APPLICATION_JSON_VALUE)
+	//@GetMapping(value = "/api/contacts")//, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping()
 	@ResponseBody() //Optional, but its presence does not do any harm! 
 	public List<Contact> getAllContacts()
 	{
@@ -51,7 +54,8 @@ public class ContactRestController
 		return contactService.getAllContacts();
 	}
 	
-	@GetMapping(value = "/api/contacts/Optional/{id}")
+	//@GetMapping(value = "/api/contacts/Optional/{id}")
+	@GetMapping(value = "/Optional/{id}")
 	public Optional<Contact> getContactByIdOptional(@PathVariable long id)
 	{
 		logger.info("/api/contacts/Optional/{id} - invoked, id="+id);
@@ -59,7 +63,8 @@ public class ContactRestController
 		return contactService.getContactById(id);
 	}
 	
-	@GetMapping(value = "/api/contacts/{id}")
+	//@GetMapping(value = "/api/contacts/{id}")
+	@GetMapping(value = "/{id}")
 	public Contact getContactById(@PathVariable long id)
 	{
 		logger.info("/api/contacts/{id} - invoked, id="+id);
@@ -74,7 +79,8 @@ public class ContactRestController
 	 */
 	//@RequestMapping(value = "/api/contact", method=RequestMethod.POST) 
 	//@PostMapping(value = "/api/contact")//shortcut Mapping
-	@PostMapping("/api/contacts")//even more shorter version - skip the value attribute if it is the only value
+	//@PostMapping("/api/contacts")//even more shorter version - skip the value attribute if it is the only value
+	@PostMapping()//the extrement simplest version - the API  URI prefix is applied at the Class level
 	public String addContact(@RequestBody @Valid Contact contact)
 	{
 		logger.info("POST - /api/contacts request received");
@@ -108,7 +114,8 @@ public class ContactRestController
 		return message;
 	}
 	
-	@PutMapping("/api/contacts")
+	//@PutMapping("/api/contacts")
+	@PutMapping()
 	public void updateContact(@RequestBody @Valid Contact contact)
 	{
 		logger.info("PUT - /api/contacts request received");
@@ -126,7 +133,8 @@ public class ContactRestController
 		}
 	}
 	
-	@DeleteMapping("/api/contacts/{id}")
+	//@DeleteMapping("/api/contacts/{id}")
+	@DeleteMapping("/{id}")
 	public boolean deleteContact(@PathVariable long id)
 	{
 		logger.info("DELETE - /api/contacts/{id} request received");
@@ -154,7 +162,8 @@ public class ContactRestController
 	 * @return
 	 * @throws RuntimeException
 	 */
-	@GetMapping(value = "/api/contacts/try/RTE/{id}")
+	//@GetMapping(value = "/api/contacts/try/RTE/{id}")
+	@GetMapping(value = "/try/RTE/{id}")
 	public Contact getContactById2(@PathVariable long id)
 	{
 		logger.info("/api/contacts/try/RTE/{id} - invoked, id="+id);
@@ -168,7 +177,8 @@ public class ContactRestController
 		}
 	}
 	
-	@GetMapping(value = "/api/contacts/try/Object/{id}")
+	//@GetMapping(value = "/api/contacts/try/Object/{id}")
+	@GetMapping(value = "/try/Object/{id}")
 	public Object getContactById3(@PathVariable long id)
 	{
 		logger.info("/api/contacts/try/Object/{id} - invoked, id="+id);
@@ -182,7 +192,8 @@ public class ContactRestController
 		}
 	}
 	
-	@GetMapping(value = "/api/contacts/try/RE/{id}")
+	//@GetMapping(value = "/api/contacts/try/RE/{id}")
+	@GetMapping(value = "/try/RE/{id}")
 	public ResponseEntity<Object> getContactByIdResponseEntity(@PathVariable long id)
 	{
 		logger.info("/api/contacts/try/RE/{id} - invoked, id="+id);
@@ -239,7 +250,8 @@ public class ContactRestController
 		return responseEntity;
 	}
 	
-	@PostMapping("/api/contacts/try/error/RE")
+	//@PostMapping("/api/contacts/try/error/RE")
+	@PostMapping("/try/error/RE")
 	public ResponseEntity<String> addContactErrorResponseEntity
 			(@Valid @RequestBody Contact contact,
 					MethodArgumentNotValidException methodArgNotValidException)
@@ -298,7 +310,8 @@ public class ContactRestController
 		return responseEntity;
 	}
 	
-	@PostMapping("/api/contacts/try/RE")
+	//@PostMapping("/api/contacts/try/RE")
+	@PostMapping("/try/RE")
 	public String addContactResponseEntity(@Valid @RequestBody Contact contact) 
 	throws BusinessException
 	{
@@ -313,6 +326,20 @@ public class ContactRestController
 		logger.info("newlyInsertedId :: " + newlyInsertedId);
 		message = "Contact successfully added with the Id - " + newlyInsertedId;
 		
+		return message;
+	}
+	
+	@PutMapping("/try/RE")
+	public String updateContactResponseEntity(@RequestBody @Valid Contact contact)
+	throws BusinessException
+	{
+		logger.info("PUT - /api/contacts/try/RE request received");
+		logger.info("RequestBody :: " + contact);
+		
+		contactService.updateContact(contact);
+		String message = "An attempt to update the Contact successfully!";
+		logger.info(message);
+
 		return message;
 	}
 }

@@ -173,7 +173,23 @@ public class ContactServiceImpl implements ContactService
 		/* New Logic with SpringJDBC  using jdbcTemplat in ContactDAO		  */
 		/* ------------------------------------------------------------------ */
 		Optional<Contact> optionalContact = contactDAO.getByContactNo(contactParam.getContactNo());
-		isDuplicate = optionalContact.isPresent();
+		
+		/** 
+		 * Logic Change :
+		 * As we are performing this check before Add or Update a contact, 
+		 * then we should exclude the record on its own, otherwise it is a
+		 * false positive. 
+		 */
+		//isDuplicate = optionalContact.isPresent();
+		boolean isPresent = optionalContact.isPresent();
+		logger.info("isPresent ? " + isDuplicate);
+		
+		if(isPresent)
+		{
+			Contact contactFromDB = optionalContact.get();
+			/* The ID should NOT match on the both the objects */
+			isDuplicate = contactFromDB.getId() != contactParam.getId();
+		}
 		
 		logger.info("isDuplicate ? " + isDuplicate);
 		
@@ -247,6 +263,16 @@ public class ContactServiceImpl implements ContactService
 		}
 		
 		logger.info("contact matching : " + optionalContact.get());
+		
+		/* Precursory validation on the contactNo similar to create, 
+		 * before we hit the DB for updating
+		 */
+		if(isContactDuplicate(contact)) 
+		{
+			String errorMsg = "ContactNo already exists - "  + contact.getContactNo();
+			logger.error(errorMsg);
+			throw new BusinessException(errorMsg);
+		}
 		
 		/*System.out.println("size of the contactList before removal : " + contactList.size());
 		contactList.remove(contact);

@@ -438,6 +438,17 @@ Factors :
 		* Annotate the `@RestController` class with `@RestControllerAdvice` to inform Spring that this class has an `@ExceptionHandler` method(s) for handling the exceptions, and hence Spring 
 		need NOT worry about handling that exception.
 
+## Spring Rest - API  URI Optimization
+
+* The common prefix of the URI path can be applied at the `@RestController` level than at each individual API method
+* The URI for the `@RestController` is applied via `@RequestMapping` annotation.
+* Benefits
+	- They are simple and short
+	- The URI is NOT too verbose
+	- The changes can be easily made at a single place - at the Class level.
+
+> *NOTE*: This API URI Optimization is not only for the `RestController` but it is applicable for `@Controller` classes as well.
+	
 ### Assignment
 
 * Make the HTTP Post/Put/Delete requests via `cURL`, as we have demonstrated the same using *Insomnia REST Client* in the class.
