@@ -84,4 +84,100 @@ When we have an error in the input while submitting the form and the validation 
 
 > Note : Pay attention to the `model`, view name and the `200 OK`
 
+# ModelAttribute
 
+The *ModelAttribute* is one of the most important Annotations in the *Spring MVC*. It is defined in the package (`org.springframework.web.bind.annotation`).
+
+`@ModelAttribute is an annotation that binds a method parameter or method return value to a named model attribute, and then exposes it to a web view.` 
+
+*Reference:* [https://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation](https://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation)
+
+## Different Forms of `ModelAttribute`
+
+We can use the `ModelAttribute` in two differen flavors/forms.
+
+* At a Method level 
+* At a Method Parameter level
+
+### `ModelAttribute` at a Method level 
+
+When we use the annotation at the method level, it indicates the purpose of the method is to add one or more model attributes. Such methods support the same argument types as @RequestMapping methods, but _they can't be mapped directly to requests._
+
+*Example*:
+
+```java
+@ModelAttribute
+public void addAttributes(Model model) {
+    model.addAttribute("msg", "Welcome to the ModelAttribute Demo!");
+}
+```
+
+In the above example, the method adds an attribute named `msg` to *all* the models defined in the controller class.
+
+In general, Spring MVC will always make a call to that method first, before it calls any request handler methods. Basically, *`@ModelAttribute` methods are invoked before the controller methods annotated with `@RequestMapping` are invoked*. This is because the model object has to be created before any processing starts inside the controller methods.
+
+It's also important that we annotate the respective class as `@ControllerAdvice`. Thus, we can add values in Model that'll be identified as *global*. This actually means that for every request, a default value exists for every method in the response.
+
+### `ModelAttribute` at a Method level 
+
+When we use the annotation as a method argument, it indicates _to retrieve the argument from the model._ 
+
+When the annotation isn't present, it should first be instantiated, and then added to the model. Once present in the model, the arguments fields should populate from all request parameters that have matching names.
+
+In the following code snippet, we'll populate the employee model attribute with data from a form submitted to the `addEmployee` endpoint. Spring MVC does this behind the scenes *before* invoking the _submit method:_
+
+```java
+@RequestMapping(value = "/addEmployee", method = RequestMethod.POST)
+public String submit(@ModelAttribute("employee") Employee employee) {
+    // Code that uses the employee object
+
+    return "employeeView";
+}
+```
+
+In Spring MVC, we refer to this as *data binding*, a common mechanism that _saves us from having to parse each form field individually._
+
+## `modelAttribute` Vs `commandName`
+
+The attribute in the `<form>` tag can be of either `commandName` or the `modelAttribute`. They both actually refer to the same backing bean in the `spring-form.tld`'s backed up Java class and they both refer to the same `ModelAttribute`. 
+
+However the `commandName` is still retained for the historical reasons, and we should prefer using the `modelAttribute` in all the latest application development.
+
+*Reference*: [https://stackoverflow.com/questions/21495616/difference-between-modelattribute-and-commandname-attributes-in-form-tag-in-spri](https://stackoverflow.com/questions/21495616/difference-between-modelattribute-and-commandname-attributes-in-form-tag-in-spri)
+  * Direct Response : [https://stackoverflow.com/a/21500148/1001242](https://stackoverflow.com/a/21500148/1001242)
+  
+> *Note* : the class is just called <tag-name>Tag. For the fully qualified class name, open the library (.jar) containing the tag, spring-web in this case. Under META-INF, you'll find spring-form.tld. It'll have a <tag> entry for form with a <tag-class> of org.springframework.web.servlet.tags.form.FormTag
+
+```java 
+/**
+ * Set the name of the form attribute in the model.
+ * <p>May be a runtime expression.
+ */
+public void setModelAttribute(String modelAttribute) {
+    this.modelAttribute = modelAttribute;
+}
+
+/**
+ * Get the name of the form attribute in the model.
+ */
+protected String getModelAttribute() {
+    return this.modelAttribute;
+}
+
+/**
+ * Set the name of the form attribute in the model.
+ * <p>May be a runtime expression.
+ * @see #setModelAttribute
+ */
+public void setCommandName(String commandName) {
+    this.modelAttribute = commandName;
+}
+
+/**
+ * Get the name of the form attribute in the model.
+ * @see #getModelAttribute
+ */
+protected String getCommandName() {
+    return this.modelAttribute;
+}
+```

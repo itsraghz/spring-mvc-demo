@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Manager | Home</title>
-</head>
-<body>
-<h1>Manager Home</h1>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Manager | Home</title>
+	</head>
+	<body>
+		<h1>Manager Home</h1>
+	</body>
 </html>
